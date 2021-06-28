@@ -1,2 +1,2 @@
-export const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-export const frequencyOrder = 'etaoinsrhdlucmfywgpbvkxqjz'
+export const alphabet = "abcdefghijklmnopqrstuvwxyz";
+export const frequencyOrder = "etaoinsrhdlucmfywgpbvkxqjz";

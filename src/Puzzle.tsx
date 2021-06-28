@@ -1,30 +1,30 @@
-import UserInputHandler from './UserInputHandler';
-import CipherTextDisplay from './CipherTextDisplay';
-import { useMemo, useState } from 'react';
-import {swapLetters, findInitialMapping} from './mapping';
+import UserInputHandler from "./UserInputHandler";
+import CipherTextDisplay from "./CipherTextDisplay";
+import { useMemo, useState } from "react";
+import { swapLetters, findInitialMapping } from "./mapping";
 
 interface PuzzleProps {
   text: string;
   onComplete: () => void;
 }
 
-function Puzzle({text}: PuzzleProps) {
+function Puzzle({ text }: PuzzleProps) {
   const initialMapping = useMemo(() => findInitialMapping(text), [text]);
   const [mapping, setMapping] = useState<string>(initialMapping);
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
   const handleSwap = (a: string, b: string) => {
-    setMapping(swapLetters(mapping, a, b))
-  }
+    setMapping(swapLetters(mapping, a, b));
+  };
 
   const handleLocked = (letter: string, locked: boolean) => {
     const newSet = new Set(lockedLetters);
-    if(locked) {
+    if (locked) {
       newSet.add(letter);
-    }else {
+    } else {
       newSet.delete(letter);
     }
     setLockedLetters(newSet);
-  }
+  };
   const restartLevel = () => setMapping(initialMapping);
   const unlockAllLetters = () => setLockedLetters(new Set());
 
@@ -43,8 +43,8 @@ function Puzzle({text}: PuzzleProps) {
       <UserInputHandler
         swap={handleSwap}
         setLock={handleLocked}
-        lockedLetters={lockedLetters} />
-
+        lockedLetters={lockedLetters}
+      />
     </div>
   );
 }

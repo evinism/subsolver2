@@ -1,9 +1,9 @@
-import './App.css';
-import Puzzle from './Puzzle';
-import plaintexts from './plaintexts';
-import { useState } from 'react';
+import "./App.css";
+import Puzzle from "./Puzzle";
+import plaintexts from "./plaintexts";
+import { useState } from "react";
 
-function choose<T>(arr: T[]): T{
+function choose<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
