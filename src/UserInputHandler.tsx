@@ -1,10 +1,17 @@
 import { ReactElement, useState } from "react"
 import useEventListener from '@use-it/event-listener';
+import keysPressed from './keyspressed';
 
+const getLettersPressed = () => new Set(
+  Array.from(keysPressed.getKeysPressed())
+    .filter((str) => str.startsWith('Key') || str === 'Space')
+    .map((str) => str.toLowerCase().replace('key', ''))
+)
 
 interface UserInputHandlerProps {
   swap?: (letterA: string, letterB: string) => unknown;
   setLock?: (letter: string, lockState: boolean) => unknown;
+  lockedLetters?: Set<string>,
 }
 
 const defaultSwap: UserInputHandlerProps['swap'] = (a, b) => console.log(`Swapped ${a} and ${b}!`);
@@ -22,6 +29,7 @@ const UserInputHandler = (props: UserInputHandlerProps) => {
   const {
     swap = defaultSwap,
     setLock = defaultSetLock,
+    lockedLetters = new Set(),
   } = props;
   const [keysDown, setKeysDown] = useState<Set<string>>(new Set());
   const [swapState, setSwapState] = useState<SwapState>({
@@ -29,7 +37,7 @@ const UserInputHandler = (props: UserInputHandlerProps) => {
   });
 
   const handleSwapState = (next: Set<string>) => {
-    const nextValues = Array.from(next.values());
+    const nextValues = Array.from(next.values()).sort();
     if (nextValues.length > 2) {
       setSwapState({
         type: 'invalid',
@@ -45,25 +53,26 @@ const UserInputHandler = (props: UserInputHandlerProps) => {
       }
     } else if (nextValues.length === 0) {
       if(swapState.type === 'swap'){
-        swap(swapState.a, swapState.b);
+        if (swapState.a === 'space') {
+          setLock(swapState.b, !lockedLetters.has(swapState.b));
+        } else if(swapState.b === 'space') {
+          setLock(swapState.a, !lockedLetters.has(swapState.a));
+        } else {
+          swap(swapState.a, swapState.b);
+        }
       }
       setSwapState({type: 'none'});
     }
   }
 
-  const keyDownHandler = (event: KeyboardEvent) => {
-    if (event.repeat) {
-      return;
-    }
-    const next = new Set(keysDown);
-    next.add(event.code);
+  const keyDownHandler = () => {
+    const next = getLettersPressed();
     setKeysDown(next);
     handleSwapState(next);
   }
 
-  const keyUpHandler = (event: KeyboardEvent) => {
-    const next = new Set(keysDown)
-    next.delete(event.code);
+  const keyUpHandler = () => {
+    const next = getLettersPressed();
     setKeysDown(next);
     handleSwapState(next);
   }
@@ -73,14 +82,21 @@ const UserInputHandler = (props: UserInputHandlerProps) => {
 
   let swapStateRep: ReactElement | null = null;
   if(swapState.type === 'swap') {
-    swapStateRep = <span>{swapState.a} ↔ {swapState.b}</span>
+    if (swapState.a === 'space') {
+      swapStateRep = <span>Toggling lock of {swapState.b}</span>
+    } else if(swapState.b === 'space') {
+      swapStateRep = <span>Toggling lock of {swapState.a}</span>
+    } else {
+      swapStateRep = <span>{swapState.a} ↔ {swapState.b}</span>
+    }
   } else if(swapState.type === 'invalid') {
     swapStateRep = <span>[ ??? ]</span>
   }
 
+  const keysDownRep = Array.from(keysDown.values()).sort().map(key => key.replace('space', "🔒")).join(", ");
   return <div>
     <div>
-      {Array.from(keysDown.values()).join(", ")}
+      {keysDownRep}
     </div>
     <div>
       {swapStateRep}
