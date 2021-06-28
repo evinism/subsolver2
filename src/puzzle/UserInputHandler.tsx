@@ -1,6 +1,6 @@
 import { ReactElement, useState } from "react";
 import useEventListener from "@use-it/event-listener";
-import keysPressed from "./keyspressed";
+import keysPressed from "../keyspressed";
 
 const getLettersPressed = () =>
   new Set(
@@ -109,8 +109,8 @@ const UserInputHandler = (props: UserInputHandlerProps) => {
     .join(", ");
   return (
     <div>
-      <div>{keysDownRep}</div>
-      <div>{swapStateRep}</div>
+      <div>Keys: {keysDownRep}</div>
+      <div>Action: {swapStateRep}</div>
     </div>
   );
 };

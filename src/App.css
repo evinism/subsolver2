@@ -1,55 +1,86 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: #333;
 }
 
 span.locked {
-  background-color: #aaa;
+  background-color: #111;
+  color: #aaa;
 }
 
 .puzzle {
   margin: auto;
-  max-width: 50em;
+  max-width: 60em;
 }
 
-.cipher-text-display {
-  background-color: #eee;
-  padding: 8px;
-  word-break: break-all;
+.puzzle .event-stream {
+  position: relative;
+  padding: 0.5rem;
+  width: 14rem;
+  display: flex;
+  flex-direction: column;
+  height: 8.5rem;
+  border-radius: 2px;
+  border: 1px solid #aaa;
+}
+
+.puzzle .event-stream::after {
+  position: absolute;
+  bottom: 0;
+  content: "";
+  height: 75%;
+  width: calc(100% - 1rem);
+  background: linear-gradient(0, #333, transparent);
+}
+
+.puzzle .event-stream-header {
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+}
+
+.puzzle .event-stream-items {
   text-align: left;
-  font-size: 1.5em;
+}
+
+.puzzle .cipher-text-display {
+  background-color: #444;
+  padding: 1rem;
+  word-break: break-word;
+  text-align: justify;
+  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
+  font-family: monospace;
+}
+
+.puzzle-letter {
+  animation: letter_change ease-out 1s;
+}
+
+.puzzle-buttons {
+  padding: 0.5rem;
+}
+
+.puzzle-buttons > * {
+  margin: 0 0.25rem;
+}
+
+.puzzle header {
+  text-align: left;
+  padding: 0.25rem;
+  color: lightgray;
+}
+
+@keyframes letter_change {
+  from {
+    color: #0f0;
+  }
+  to {
+    color: inherit;
+  }
 }

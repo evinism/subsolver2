@@ -1,5 +1,5 @@
 import "./App.css";
-import Puzzle from "./Puzzle";
+import Puzzle from "./puzzle/Puzzle";
 import plaintexts from "./plaintexts";
 import { useState } from "react";
 
@@ -11,12 +11,17 @@ function App() {
   const [plainText] = useState(choose(plaintexts));
   return (
     <div className="App">
-      <h1>Subsolver 2</h1>
-      <p>Press down two letters simultaneously to swap them!</p>
-      <hr />
+      <header>
+        <h1>Subsolver 2</h1>
+        <p>
+          Press two letters simultaneously to swap them!
+          <br />
+          Press one letter with space to lock it in place!
+        </p>
+      </header>
       <Puzzle
-        text={plainText.plaintext}
-        key={plainText.plaintext}
+        plaintext={plainText}
+        key={plainText.text}
         onComplete={() => console.log("WOO")}
       />
     </div>

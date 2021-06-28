@@ -1,12 +1,25 @@
-import { alphabet, frequencyOrder } from "./constants";
+import { alphabet, frequencyOrder } from "../constants";
 
-const _normalizeText = (text: string) =>
-  text.toLowerCase().replace(/[^a-z]/g, "");
+const _normalizeText = (text: string, keepSpaces: boolean) =>
+  text
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .replace(keepSpaces ? /[^a-z ]/g : /[^a-z]/g, "");
 
-export const applyMapping = (text: string, mapping: string) =>
-  _normalizeText(text)
+export const applyMapping = (
+  text: string,
+  mapping: string,
+  showSpaces = false
+) =>
+  _normalizeText(text, showSpaces)
     .split("")
-    .map((letter) => mapping[alphabet.indexOf(letter)])
+    .map((letter) => {
+      if (letter === " ") {
+        return letter;
+      } else {
+        return mapping[alphabet.indexOf(letter)];
+      }
+    })
     .join("");
 
 export const swapLetters = (mapping: string, a: string, b: string) => {
@@ -30,7 +43,7 @@ const _getLetterCounts = (normalizedText: string) => {
 };
 
 export const findInitialMapping = (text: string) => {
-  const normalized = _normalizeText(text);
+  const normalized = _normalizeText(text, false);
   const letterCounts = Object.entries(_getLetterCounts(normalized));
   letterCounts.sort((a, b) => b[1] - a[1]);
   const mappingEntries = letterCounts.map(([letter], index) => [
