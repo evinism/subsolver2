@@ -8,7 +8,7 @@ function choose<T>(arr: T[]): T {
 }
 
 function App() {
-  const [plainText] = useState(choose(plaintexts));
+  const [plainText, setPlainText] = useState(choose(plaintexts));
   return (
     <div className="App">
       <header>
@@ -23,6 +23,17 @@ function App() {
         plaintext={plainText}
         key={plainText.text}
         onComplete={() => console.log("WOO")}
+        solvedOverlay={
+          <div>
+            <div>
+              <p>{plainText.text}</p>
+              --{plainText.author}, from {plainText.origin}
+            </div>
+            <button onClick={() => setPlainText(choose(plaintexts))}>
+              Next
+            </button>
+          </div>
+        }
       />
     </div>
   );

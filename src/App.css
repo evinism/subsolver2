@@ -84,3 +84,39 @@ span.locked {
     color: inherit;
   }
 }
+
+.puzzle-solved-overlay {
+  animation: fade_over 1s linear;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+}
+
+.puzzle-overlayable {
+  position: relative;
+}
+
+@keyframes fade_over {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+
+.blurred {
+  animation: blur 1s linear;
+  filter: blur(5px);
+}
+
+@keyframes blurout {
+  from {
+    filter: blur(0);
+  }
+  to {
+    filter: blur(5px);
+  }
+}

@@ -1,6 +1,6 @@
 import UserInputHandler from "./UserInputHandler";
 import CipherTextDisplay from "./CipherTextDisplay";
-import { useMemo, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import { swapLetters, findInitialMapping } from "./mapping";
 import EventStream from "./EventStream";
 import { alphabet } from "../constants";
@@ -11,14 +11,20 @@ import { applyMapping } from "./mapping";
 interface PuzzleProps {
   plaintext: Plaintext;
   onComplete: () => void;
+  solvedOverlay: ReactElement;
 }
 
-function Puzzle({ plaintext: { text, id } }: PuzzleProps) {
+function Puzzle({
+  plaintext: { text, id },
+  onComplete,
+  solvedOverlay,
+}: PuzzleProps) {
   const initialMapping = useMemo(() => findInitialMapping(text), [text]);
   const [mapping, setMapping] = useState<string>(initialMapping);
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
   const [events, setEvents] = useState<string[]>([]);
   const [showSpaces, setShowSpaces] = useState<boolean>(false);
+  const [complete, setComplete] = useState<boolean>(false);
 
   const handleSwap = (a: string, b: string) => {
     const pushFailedSwap = (x: string) =>
@@ -28,10 +34,20 @@ function Puzzle({ plaintext: { text, id } }: PuzzleProps) {
     } else if (lockedLetters.has(b)) {
       pushFailedSwap(b);
     } else {
-      setMapping(swapLetters(mapping, a, b));
+      const newMapping = swapLetters(mapping, a, b);
+      setMapping(newMapping);
       pushEvent(`Swapped letters ${a} and ${b}.`);
+      if (applyMapping(text, newMapping) === applyMapping(text, alphabet)) {
+        pushEvent(`Puzzle #${id} solved`);
+        setComplete(true);
+        onComplete();
+      }
     }
   };
+
+  function suppressIfComplete(fn: any) {
+    return (...args: any) => !complete && fn(...args);
+  }
 
   const pushEvent = (ev: string) => {
     const MAX_EVENTS = 64;
@@ -67,28 +83,39 @@ function Puzzle({ plaintext: { text, id } }: PuzzleProps) {
   return (
     <div className="puzzle">
       <header>Puzzle #{id}</header>
-      <CipherTextDisplay
-        text={applyMapping(text, mapping, showSpaces)}
-        lockedLetters={lockedLetters}
-      />
-      <div className="puzzle-buttons">
-        <button onClick={restartLevel}>Restart</button>
-        <button onClick={unlockAllLetters}>Remove lock on all letters</button>
-        <button onClick={randomizeMapping}>Randomize</button>
-        <label>
-          Easy Mode
-          <input
-            type="checkbox"
-            checked={showSpaces}
-            onClick={() => setShowSpaces(!showSpaces)}
+      <div className="puzzle-overlayable">
+        <div className={complete ? " blurred" : ""}>
+          <CipherTextDisplay
+            text={applyMapping(text, mapping, showSpaces)}
+            lockedLetters={lockedLetters}
           />
-        </label>
+          <div className="puzzle-buttons">
+            <button onClick={suppressIfComplete(restartLevel)}>Restart</button>
+            <button onClick={suppressIfComplete(unlockAllLetters)}>
+              Remove lock on all letters
+            </button>
+            <button onClick={suppressIfComplete(randomizeMapping)}>
+              Randomize
+            </button>
+            <label>
+              Easy Mode
+              <input
+                type="checkbox"
+                checked={showSpaces}
+                onClick={() => setShowSpaces(!showSpaces)}
+              />
+            </label>
+          </div>
+          <UserInputHandler
+            swap={suppressIfComplete(handleSwap)}
+            setLock={suppressIfComplete(handleLocked)}
+            lockedLetters={lockedLetters}
+          />
+        </div>
+        {complete && (
+          <div className="puzzle-solved-overlay">{solvedOverlay}</div>
+        )}
       </div>
-      <UserInputHandler
-        swap={handleSwap}
-        setLock={handleLocked}
-        lockedLetters={lockedLetters}
-      />
       <EventStream events={events} />
     </div>
   );
