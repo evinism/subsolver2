@@ -31,7 +31,7 @@ span.locked {
   left: 100%;
   top: 2rem;
   text-align: left;
-  padding: 0.5rem;
+  padding: 0 1rem;
   white-space: nowrap;
   display: flex;
   flex-direction: column;

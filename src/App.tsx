@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <header className="app-header">
-        <h1>Subsolver 2</h1>
+        <h1>Subsolver: a substitution cipher solving game</h1>
         <p>
           Press two letters simultaneously to swap them!
           <br />
