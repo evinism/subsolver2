@@ -23,7 +23,7 @@ function Puzzle({
   const initialMapping = useMemo(() => findInitialMapping(text), [text]);
   const [mapping, setMapping] = useState<string>(initialMapping);
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
-  const [showSpaces, setShowSpaces] = useState<boolean>(false);
+  const [showSpaces, setShowSpaces] = useState<boolean>(true);
   const [complete, setComplete] = useState<boolean>(false);
 
   const handleSwap = (a: string, b: string) => {
@@ -96,10 +96,10 @@ function Puzzle({
                 Randomize
               </button>
               <label>
-                Easy Mode
+                Hard Mode
                 <input
                   type="checkbox"
-                  checked={showSpaces}
+                  checked={!showSpaces}
                   onClick={() => setShowSpaces(!showSpaces)}
                 />
               </label>

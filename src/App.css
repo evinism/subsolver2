@@ -55,6 +55,7 @@ span.locked {
   font-size: 1.5rem;
   letter-spacing: 0.1rem;
   font-family: monospace;
+  padding-bottom: 1.5rem;
 }
 
 .puzzle-letter {
@@ -67,6 +68,21 @@ span.locked {
   background-color: rgba(0, 0, 0, 0.8);
   transform: translateY(100%);
   transition: transform ease-out 0.2s;
+}
+
+.puzzle-buttons:before {
+  position: absolute;
+  bottom: 100%;
+  content: "⌃";
+  line-height: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3a3a3a;
+  left: 10%;
+  border-radius: 2px;
+  width: 80%;
+  opacity: 1;
+  transition: opacity ease-out 0.2s;
 }
 
 .puzzle-buttons-hit-area {
@@ -84,6 +100,10 @@ span.locked {
 
 .puzzle-buttons-hit-area:hover .puzzle-buttons {
   transform: translateY(0%);
+}
+
+.puzzle-buttons-hit-area:hover .puzzle-buttons:before {
+  opacity: 0;
 }
 
 .puzzle-buttons > * {
