@@ -103,14 +103,11 @@ const UserInputHandler = (props: UserInputHandlerProps) => {
     swapStateRep = <span>[ ??? ]</span>;
   }
 
-  const keysDownRep = Array.from(keysDown.values())
-    .sort()
-    .map((key) => key.replace("space", "🔒"))
-    .join(", ");
+  const keysDownRep = Array.from(keysDown.values()).sort().join(", ") || "None";
   return (
-    <div>
-      <div>Keys: {keysDownRep}</div>
-      <div>Action: {swapStateRep}</div>
+    <div className="user-input-info-bar">
+      <div>Keys Down: {keysDownRep}</div>
+      <div>{swapStateRep}</div>
     </div>
   );
 };

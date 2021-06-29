@@ -1,8 +1,7 @@
 import UserInputHandler from "./UserInputHandler";
 import CipherTextDisplay from "./CipherTextDisplay";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { swapLetters, findInitialMapping } from "./mapping";
-import EventStream from "./EventStream";
 import { alphabet } from "../constants";
 import { shuffleArray } from "../util";
 import { Plaintext } from "../plaintexts";
@@ -12,19 +11,24 @@ interface PuzzleProps {
   plaintext: Plaintext;
   onComplete: () => void;
   solvedOverlay: ReactElement;
+  pushEvent: (evtStr: string) => unknown;
 }
 
 function Puzzle({
   plaintext: { text, id },
   onComplete,
   solvedOverlay,
+  pushEvent,
 }: PuzzleProps) {
   const initialMapping = useMemo(() => findInitialMapping(text), [text]);
   const [mapping, setMapping] = useState<string>(initialMapping);
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
-  const [events, setEvents] = useState<string[]>([]);
   const [showSpaces, setShowSpaces] = useState<boolean>(false);
   const [complete, setComplete] = useState<boolean>(false);
+
+  useEffect(() => {
+    pushEvent(`Puzzle ${id} started!`);
+  }, [id]);
 
   const handleSwap = (a: string, b: string) => {
     const pushFailedSwap = (x: string) =>
@@ -36,7 +40,7 @@ function Puzzle({
     } else {
       const newMapping = swapLetters(mapping, a, b);
       setMapping(newMapping);
-      pushEvent(`Swapped letters ${a} and ${b}.`);
+      pushEvent(`"${a.toUpperCase()}" and "${b.toUpperCase()}" swapped.`);
       if (applyMapping(text, newMapping) === applyMapping(text, alphabet)) {
         pushEvent(`Puzzle #${id} solved`);
         setComplete(true);
@@ -49,13 +53,6 @@ function Puzzle({
     return (...args: any) => !complete && fn(...args);
   }
 
-  const pushEvent = (ev: string) => {
-    const MAX_EVENTS = 64;
-    const newEvents = events.slice(0, MAX_EVENTS);
-    newEvents.unshift(ev);
-    setEvents(newEvents);
-  };
-
   const handleLocked = (letter: string, locked: boolean) => {
     const newSet = new Set(lockedLetters);
     if (locked) {
@@ -64,7 +61,7 @@ function Puzzle({
       newSet.delete(letter);
     }
     setLockedLetters(newSet);
-    pushEvent(`${locked ? "Locked" : "Unlocked"} letter ${letter}.`);
+    pushEvent(`"${letter.toUpperCase()}" ${locked ? "Locked" : "Unlocked"}.`);
   };
   const restartLevel = () => {
     setMapping(initialMapping);
@@ -89,34 +86,39 @@ function Puzzle({
             text={applyMapping(text, mapping, showSpaces)}
             lockedLetters={lockedLetters}
           />
-          <div className="puzzle-buttons">
-            <button onClick={suppressIfComplete(restartLevel)}>Restart</button>
-            <button onClick={suppressIfComplete(unlockAllLetters)}>
-              Remove lock on all letters
-            </button>
-            <button onClick={suppressIfComplete(randomizeMapping)}>
-              Randomize
-            </button>
-            <label>
-              Easy Mode
-              <input
-                type="checkbox"
-                checked={showSpaces}
-                onClick={() => setShowSpaces(!showSpaces)}
-              />
-            </label>
-          </div>
-          <UserInputHandler
-            swap={suppressIfComplete(handleSwap)}
-            setLock={suppressIfComplete(handleLocked)}
-            lockedLetters={lockedLetters}
-          />
         </div>
         {complete && (
           <div className="puzzle-solved-overlay">{solvedOverlay}</div>
         )}
+        <div className="puzzle-buttons-hit-area">
+          <div className="puzzle-buttons-wrapper">
+            <div className="puzzle-buttons">
+              <button onClick={suppressIfComplete(restartLevel)}>
+                Restart
+              </button>
+              <button onClick={suppressIfComplete(unlockAllLetters)}>
+                Remove lock on all letters
+              </button>
+              <button onClick={suppressIfComplete(randomizeMapping)}>
+                Randomize
+              </button>
+              <label>
+                Easy Mode
+                <input
+                  type="checkbox"
+                  checked={showSpaces}
+                  onClick={() => setShowSpaces(!showSpaces)}
+                />
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
-      <EventStream events={events} />
+      <UserInputHandler
+        swap={suppressIfComplete(handleSwap)}
+        setLock={suppressIfComplete(handleLocked)}
+        lockedLetters={lockedLetters}
+      />
     </div>
   );
 }
