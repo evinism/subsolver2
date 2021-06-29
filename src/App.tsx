@@ -10,12 +10,19 @@ function choose<T>(arr: T[]): T {
 
 function App() {
   const [plainText, setPlainText] = useState(choose(plaintexts));
-  const [events, setEvents] = useState<string[]>([]);
+  const [events, setEvents] = useState<string[]>([
+    `Started puzzle #${plainText.id}`,
+  ]);
   const pushEvent = (ev: string) => {
     const MAX_EVENTS = 64;
     const newEvents = events.slice(0, MAX_EVENTS);
     newEvents.unshift(ev);
     setEvents(newEvents);
+  };
+
+  const startNewPuzzle = () => {
+    setPlainText(choose(plaintexts));
+    pushEvent(`Started puzzle #${plainText.id}`);
   };
 
   return (
@@ -45,9 +52,7 @@ function App() {
                 </div>
               </div>
               <div>
-                <button onClick={() => setPlainText(choose(plaintexts))}>
-                  Next Puzzle
-                </button>
+                <button onClick={startNewPuzzle}>Next Puzzle</button>
               </div>
             </div>
           }

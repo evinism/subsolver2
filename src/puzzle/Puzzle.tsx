@@ -1,6 +1,6 @@
 import UserInputHandler from "./UserInputHandler";
 import CipherTextDisplay from "./CipherTextDisplay";
-import { ReactElement, useEffect, useMemo, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import { swapLetters, findInitialMapping } from "./mapping";
 import { alphabet } from "../constants";
 import { shuffleArray } from "../util";
@@ -25,10 +25,6 @@ function Puzzle({
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
   const [showSpaces, setShowSpaces] = useState<boolean>(false);
   const [complete, setComplete] = useState<boolean>(false);
-
-  useEffect(() => {
-    pushEvent(`Puzzle ${id} started!`);
-  }, [id]);
 
   const handleSwap = (a: string, b: string) => {
     const pushFailedSwap = (x: string) =>
