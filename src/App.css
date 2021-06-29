@@ -47,10 +47,6 @@ span.locked {
   background: linear-gradient(0, #333, transparent);
 }
 
-.puzzle {
-  overflow: hidden;
-}
-
 .puzzle .cipher-text-display {
   background-color: #444;
   padding: 1rem;
@@ -68,7 +64,7 @@ span.locked {
 .puzzle-buttons {
   bottom: 0;
   padding: 2rem;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   transform: translateY(100%);
   transition: transform ease-out 0.2s;
 }
@@ -120,6 +116,7 @@ span.locked {
 .puzzle-overlayable {
   position: relative;
   overflow: hidden;
+  box-shadow: 0 0 1rem rgb(0, 0, 0, 30%);
 }
 
 @keyframes fade_over {
@@ -163,6 +160,8 @@ span.locked {
 }
 
 .user-input-info-bar {
+  padding-top: 0.2rem;
+  font-size: 0.9rem;
   display: flex;
   justify-content: space-between;
   color: #666;
