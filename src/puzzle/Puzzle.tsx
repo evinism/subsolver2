@@ -1,3 +1,4 @@
+import "./Puzzle.css";
 import UserInputHandler from "./UserInputHandler";
 import CipherTextDisplay from "./CipherTextDisplay";
 import { ReactElement, useMemo, useState } from "react";

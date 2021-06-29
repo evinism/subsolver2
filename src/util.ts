@@ -8,3 +8,7 @@ export function shuffleArray<T>(sourceArray: T[]): T[] {
   }
   return array;
 }
+
+export function choose<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}

@@ -1,0 +1,43 @@
+.classic-page {
+  text-align: center;
+}
+
+.classic-page .event-stream {
+  margin: auto;
+  overflow: hidden;
+  position: absolute;
+  left: 100%;
+  top: 5rem;
+  text-align: left;
+  padding: 0 1rem;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  height: 75%;
+}
+
+.classic-page .event-stream::after {
+  position: absolute;
+  bottom: 0;
+  content: "";
+  height: 90%;
+  width: calc(100% - 1rem);
+  background: linear-gradient(0, #333, transparent);
+}
+
+.classic-page .success-overlay {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgba(64, 64, 64, 0.8);
+  position: absolute;
+  padding: 0 2rem;
+  font-size: 1.2rem;
+  height: 100%;
+  box-shadow: 0px 0px 6px -2px lime inset;
+}
+
+.classic-page .success-author-origin {
+  text-align: right;
+}
