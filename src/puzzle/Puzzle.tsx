@@ -87,9 +87,6 @@ function Puzzle({
             lockedLetters={lockedLetters}
           />
         </div>
-        {complete && (
-          <div className="puzzle-solved-overlay">{solvedOverlay}</div>
-        )}
         <div className="puzzle-buttons-hit-area">
           <div className="puzzle-buttons-wrapper">
             <div className="puzzle-buttons">
@@ -113,6 +110,9 @@ function Puzzle({
             </div>
           </div>
         </div>
+        {complete && (
+          <div className="puzzle-solved-overlay">{solvedOverlay}</div>
+        )}
       </div>
       <UserInputHandler
         swap={suppressIfComplete(handleSwap)}
