@@ -3,14 +3,12 @@
   background-color: #333333;
   display: flex;
   align-items: center;
+  padding: 1rem;
+  text-align: center;
 }
 
 .app-header h1 {
   flex-grow: 1;
   font-size: 1.3rem;
   margin: 0 1rem;
-}
-
-.app-header > a {
-  padding: 1rem;
 }

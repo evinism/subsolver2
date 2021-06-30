@@ -1,5 +1,6 @@
 import "./App.css";
 import Classic from "./pages/Classic";
+import Home from "./pages/Home";
 import Header from "./Header";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -21,8 +22,11 @@ function App() {
             <Route path="/hard">
               <Classic gameModifiers={{ hideSpaces: true }} />
             </Route>
-            <Route path="/">
+            <Route path="/classic">
               <Classic />
+            </Route>
+            <Route path="/">
+              <Home />
             </Route>
           </Switch>
         </Router>
