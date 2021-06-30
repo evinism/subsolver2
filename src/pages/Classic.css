@@ -4,6 +4,7 @@
 }
 
 .classic-page .event-stream {
+  color: lightgray;
   margin: auto;
   overflow: hidden;
   position: absolute;
