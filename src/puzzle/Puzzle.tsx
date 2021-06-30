@@ -7,12 +7,14 @@ import { alphabet } from "../constants";
 import { shuffleArray } from "../util";
 import { Plaintext } from "../plaintexts";
 import { applyMapping } from "./mapping";
+import { Card } from "@material-ui/core";
 
 interface PuzzleProps {
   plaintext: Plaintext;
   onComplete: () => void;
   solvedOverlay: ReactElement;
   pushEvent: (evtStr: string) => unknown;
+  hideSpaces?: boolean;
 }
 
 function Puzzle({
@@ -20,11 +22,11 @@ function Puzzle({
   onComplete,
   solvedOverlay,
   pushEvent,
+  hideSpaces = false,
 }: PuzzleProps) {
   const initialMapping = useMemo(() => findInitialMapping(text), [text]);
   const [mapping, setMapping] = useState<string>(initialMapping);
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
-  const [showSpaces, setShowSpaces] = useState<boolean>(true);
   const [complete, setComplete] = useState<boolean>(false);
 
   const handleSwap = (a: string, b: string) => {
@@ -77,10 +79,10 @@ function Puzzle({
   return (
     <div className="puzzle">
       <header>Puzzle #{id}</header>
-      <div className="puzzle-overlayable">
+      <Card className="puzzle-overlayable">
         <div className={complete ? " blurred" : ""}>
           <CipherTextDisplay
-            text={applyMapping(text, mapping, showSpaces)}
+            text={applyMapping(text, mapping, !hideSpaces)}
             lockedLetters={lockedLetters}
           />
         </div>
@@ -96,21 +98,13 @@ function Puzzle({
               <button onClick={suppressIfComplete(randomizeMapping)}>
                 Randomize
               </button>
-              <label>
-                Hard Mode
-                <input
-                  type="checkbox"
-                  checked={!showSpaces}
-                  onClick={() => setShowSpaces(!showSpaces)}
-                />
-              </label>
             </div>
           </div>
         </div>
         {complete && (
           <div className="puzzle-solved-overlay">{solvedOverlay}</div>
         )}
-      </div>
+      </Card>
       <UserInputHandler
         swap={suppressIfComplete(handleSwap)}
         setLock={suppressIfComplete(handleLocked)}

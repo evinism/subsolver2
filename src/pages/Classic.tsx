@@ -5,7 +5,15 @@ import plaintexts from "../plaintexts";
 import { choose } from "../util";
 import "./Classic.css";
 
-const Classic = () => {
+type GameModifiers = {
+  hideSpaces?: boolean;
+};
+
+interface ClassicProps {
+  gameModifiers?: GameModifiers;
+}
+
+const Classic = ({ gameModifiers }: ClassicProps) => {
   const [plainText, setPlainText] = useState(choose(plaintexts));
   const [events, setEvents] = useState<string[]>([
     `Started puzzle #${plainText.id}`,
@@ -24,16 +32,12 @@ const Classic = () => {
 
   return (
     <article className="main-content classic-page">
-      <p>
-        Press two letters simultaneously to swap them!
-        <br />
-        Press one letter with space to toggle whether it's locked!
-      </p>
       <Puzzle
         plaintext={plainText}
         key={plainText.text}
         onComplete={() => console.log("WOO")}
         pushEvent={pushEvent}
+        hideSpaces={gameModifiers?.hideSpaces}
         solvedOverlay={
           <div className="success-overlay">
             <div>
@@ -50,6 +54,11 @@ const Classic = () => {
           </div>
         }
       />
+      <p>
+        Press two letters simultaneously to swap them!
+        <br />
+        Press one letter with space to toggle whether it's locked!
+      </p>
       <EventStream events={events} />
     </article>
   );

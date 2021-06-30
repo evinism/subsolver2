@@ -1,11 +1,10 @@
-body {
+.App {
   min-height: 100vh;
   min-width: 100vw;
   background-color: #333;
-}
-
-.App {
   color: white;
+  /* To disable margin stack */
+  padding-bottom: 1px;
 }
 
 span.locked {
@@ -16,5 +15,5 @@ span.locked {
 .main-content {
   position: relative;
   margin: auto;
-  max-width: 50em;
+  max-width: 60em;
 }

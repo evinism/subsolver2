@@ -3,7 +3,7 @@
   padding: 1rem;
   word-break: break-word;
   text-align: justify;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   letter-spacing: 0.1rem;
   font-family: monospace;
   padding-bottom: 1.5rem;
@@ -87,7 +87,6 @@
 .puzzle-overlayable {
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 1rem rgb(0, 0, 0, 30%);
 }
 
 @keyframes fade_over {
