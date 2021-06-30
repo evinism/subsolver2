@@ -43,3 +43,11 @@
 .classic-page .success-author-origin {
   text-align: right;
 }
+
+.classic-page .puzzle-header {
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  padding: 0.25rem;
+  color: lightgray;
+}

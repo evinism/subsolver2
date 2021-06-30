@@ -3,7 +3,7 @@ import { alphabet, frequencyOrder } from "../constants";
 const _normalizeText = (text: string, keepSpaces: boolean) =>
   text
     .toLowerCase()
-    .replace(/\s+/g, " ")
+    .replace(/[-\s]+/g, " ")
     .replace(keepSpaces ? /[^a-z ]/g : /[^a-z]/g, "");
 
 export const applyMapping = (

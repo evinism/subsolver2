@@ -61,12 +61,6 @@
   margin: 0 0.25rem;
 }
 
-.puzzle header {
-  text-align: left;
-  padding: 0.25rem;
-  color: lightgray;
-}
-
 @keyframes letter_change {
   from {
     color: #0f0;

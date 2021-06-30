@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import Puzzle from "../puzzle/Puzzle";
 import EventStream from "../EventStream";
 import plaintexts from "../plaintexts";
 import { choose } from "../util";
 import "./Classic.css";
+import { getAllSolved, setSolved } from "../solvedStore";
 
 type GameModifiers = {
   hideSpaces?: boolean;
@@ -13,11 +14,24 @@ interface ClassicProps {
   gameModifiers?: GameModifiers;
 }
 
+const chooseUnsolvedIfPossible = () => {
+  let solved = getAllSolved();
+  if (plaintexts.length === solved.length) {
+    return choose(plaintexts);
+  }
+  const unsolved = plaintexts.filter(
+    (plaintext) => !solved.includes(plaintext.id)
+  );
+  return choose(unsolved);
+};
+
 const Classic = ({ gameModifiers }: ClassicProps) => {
-  const [plainText, setPlainText] = useState(choose(plaintexts));
+  const [plainText, setPlainText] = useState(chooseUnsolvedIfPossible());
   const [events, setEvents] = useState<string[]>([
     `Started puzzle #${plainText.id}`,
   ]);
+  const forceUpdate = useReducer((x) => x + 1, 0)[1];
+
   const pushEvent = (ev: string) => {
     const MAX_EVENTS = 64;
     const newEvents = events.slice(0, MAX_EVENTS);
@@ -26,16 +40,25 @@ const Classic = ({ gameModifiers }: ClassicProps) => {
   };
 
   const startNewPuzzle = () => {
-    setPlainText(choose(plaintexts));
+    setPlainText(chooseUnsolvedIfPossible());
     pushEvent(`Started puzzle #${plainText.id}`);
   };
 
   return (
     <article className="main-content classic-page">
+      <header className="puzzle-header">
+        <span>Puzzle #{plainText.id}</span>
+        <span>
+          {getAllSolved().length} / {plaintexts.length} Solved
+        </span>
+      </header>
       <Puzzle
         plaintext={plainText}
         key={plainText.text}
-        onComplete={() => console.log("WOO")}
+        onComplete={() => {
+          setSolved(plainText.id);
+          forceUpdate();
+        }}
         pushEvent={pushEvent}
         hideSpaces={gameModifiers?.hideSpaces}
         solvedOverlay={

@@ -78,7 +78,6 @@ function Puzzle({
 
   return (
     <div className="puzzle">
-      <header>Puzzle #{id}</header>
       <Card className="puzzle-overlayable">
         <div className={complete ? " blurred" : ""}>
           <CipherTextDisplay
