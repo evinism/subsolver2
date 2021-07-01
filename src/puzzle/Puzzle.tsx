@@ -15,6 +15,8 @@ interface PuzzleProps {
   solvedOverlay: ReactElement;
   pushEvent: (evtStr: string) => unknown;
   hideSpaces?: boolean;
+  showPunctuation?: boolean;
+  keepCapitals?: boolean;
 }
 
 function Puzzle({
@@ -22,7 +24,9 @@ function Puzzle({
   onComplete,
   solvedOverlay,
   pushEvent,
-  hideSpaces = false,
+  hideSpaces,
+  showPunctuation,
+  keepCapitals,
 }: PuzzleProps) {
   const initialMapping = useMemo(() => findInitialMapping(text), [text]);
   const [mapping, setMapping] = useState<string>(initialMapping);
@@ -81,7 +85,11 @@ function Puzzle({
       <Card className="puzzle-overlayable">
         <div className={complete ? " blurred" : ""}>
           <CipherTextDisplay
-            text={applyMapping(text, mapping, !hideSpaces)}
+            text={applyMapping(text, mapping, {
+              hideSpaces,
+              showPunctuation,
+              keepCapitals,
+            })}
             lockedLetters={lockedLetters}
           />
         </div>

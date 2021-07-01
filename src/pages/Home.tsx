@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardContent, Grid } from "@material-ui/core";
 import "./Home.css";
+import Header from "../Header";
 
 interface GameModeLinkProps {
   to: string;
@@ -11,7 +12,7 @@ interface GameModeLinkProps {
 const GameModeLink = ({ to, title, description }: GameModeLinkProps) => (
   <Grid item xs>
     <Link to={to}>
-      <Card>
+      <Card className="game-mode-card">
         <CardHeader title={title} />
         <CardContent>{description}</CardContent>
       </Card>
@@ -20,18 +21,30 @@ const GameModeLink = ({ to, title, description }: GameModeLinkProps) => (
 );
 
 const Home = () => (
-  <div className="main-content home-page">
-    <h2>Select a Game Mode!</h2>
-    <Grid container spacing={1}>
-      <GameModeLink to="/classic" title="Classic" description="No Time Limit" />
-    </Grid>
-    <Grid container spacing={1}>
-      <GameModeLink
-        to="/hard"
-        title="Hard"
-        description="Spaces have been removed!"
-      />
-    </Grid>
+  <div className="home-page">
+    <h1>Subsolver: Free online substitution cipher puzzles!</h1>
+    <article className="main-content">
+      <h2>Select a Game Mode</h2>
+      <Grid container spacing={1}>
+        <GameModeLink
+          to="/classic"
+          title="Classic"
+          description="Solve substitution ciphers at your own pace."
+        />
+      </Grid>
+      <Grid container spacing={1}>
+        <GameModeLink
+          to="/casual"
+          title="Casual"
+          description="Punctuation and capitalization included!"
+        />
+        <GameModeLink
+          to="/hard"
+          title="Hardcore"
+          description="Spaces have been removed!"
+        />
+      </Grid>
+    </article>
   </div>
 );
 

@@ -1,3 +1,12 @@
 .home-page a {
   text-decoration: none;
 }
+
+.home-page .main-content {
+  top: calc(23vh - 6rem);
+  max-width: 40rem;
+}
+
+.home-page {
+  text-align: center;
+}

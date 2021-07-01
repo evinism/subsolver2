@@ -4,7 +4,7 @@
   background-color: #333;
   color: white;
   /* To disable margin stack */
-  padding-bottom: 1px;
+  padding: 1px 0;
 }
 
 span.locked {

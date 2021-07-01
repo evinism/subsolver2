@@ -7,7 +7,8 @@ const CipherTextDisplay = ({ text, lockedLetters }: CipherTextDisplayProps) => {
   const children = text.split("").map((letter, index) => (
     <span
       className={
-        "puzzle-letter " + (lockedLetters.has(letter) ? "locked" : "unlocked")
+        "puzzle-letter " +
+        (lockedLetters.has(letter.toLowerCase()) ? "locked" : "unlocked")
       }
       key={letter + index}
     >
