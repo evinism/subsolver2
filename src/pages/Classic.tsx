@@ -1,16 +1,10 @@
 import { useReducer, useState } from "react";
-import Puzzle from "../puzzle/Puzzle";
+import Puzzle, { GameModifiers } from "../puzzle/Puzzle";
 import EventStream from "../EventStream";
 import plaintexts from "../plaintexts";
 import { choose } from "../util";
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
-
-type GameModifiers = {
-  hideSpaces?: boolean;
-  showPunctuation?: boolean;
-  keepCapitals?: boolean;
-};
 
 interface ClassicProps {
   headerText: string;

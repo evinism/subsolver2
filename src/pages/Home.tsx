@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardContent, Grid } from "@material-ui/core";
 import "./Home.css";
-import Header from "../Header";
 
 interface GameModeLinkProps {
   to: string;
@@ -22,17 +21,17 @@ const GameModeLink = ({ to, title, description }: GameModeLinkProps) => (
 
 const Home = () => (
   <div className="home-page">
-    <h1>Subsolver: Free online substitution cipher puzzles!</h1>
+    <h1>Subsolver: Online Substitution Cipher Game</h1>
     <article className="main-content">
       <h2>Select a Game Mode</h2>
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         <GameModeLink
           to="/classic"
           title="Classic"
           description="Solve substitution ciphers at your own pace."
         />
       </Grid>
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         <GameModeLink
           to="/casual"
           title="Casual"

@@ -9,14 +9,17 @@ import { Plaintext } from "../plaintexts";
 import { applyMapping } from "./mapping";
 import { Card } from "@material-ui/core";
 
-interface PuzzleProps {
+export interface GameModifiers {
+  hideSpaces?: boolean;
+  showPunctuation?: boolean;
+  keepCapitals?: boolean;
+}
+
+interface PuzzleProps extends GameModifiers {
   plaintext: Plaintext;
   onComplete: () => void;
   solvedOverlay: ReactElement;
   pushEvent: (evtStr: string) => unknown;
-  hideSpaces?: boolean;
-  showPunctuation?: boolean;
-  keepCapitals?: boolean;
 }
 
 function Puzzle({
