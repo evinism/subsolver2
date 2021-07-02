@@ -12,3 +12,10 @@ export function shuffleArray<T>(sourceArray: T[]): T[] {
 export function choose<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
+
+export function unique<T>(arr: T[]): T[] {
+  function onlyUnique(value: T, index: number, self: T[]) {
+    return self.indexOf(value) === index;
+  }
+  return arr.filter(onlyUnique);
+}
