@@ -10,6 +10,7 @@ import { applyMapping } from "./mapping";
 import { Card } from "@material-ui/core";
 import PuzzleLock from "./PuzzleLock";
 import { getAllSolved } from "../solvedStore";
+import { ga } from "../tracking";
 
 export interface GameModifiers {
   hideSpaces?: boolean;
@@ -52,11 +53,13 @@ function Puzzle({
     } else if (lockedLetters.has(b)) {
       pushFailedSwap(b);
     } else {
+      ga("send", "ss_swap");
       const newMapping = swapLetters(mapping, a, b);
       setMapping(newMapping);
       pushEvent(`"${a.toUpperCase()}" and "${b.toUpperCase()}" swapped.`);
       if (applyMapping(text, newMapping) === applyMapping(text, alphabet)) {
         pushEvent(`Puzzle #${id} solved`);
+        ga("send", "ss_solve");
         setPuzzleState("complete");
         onComplete();
       }
@@ -68,6 +71,7 @@ function Puzzle({
   }
 
   const handleLocked = (letter: string, locked: boolean) => {
+    ga("send", locked ? "ss_letter_lock" : "ss_letter_unlock");
     const newSet = new Set(lockedLetters);
     if (locked) {
       newSet.add(letter);
