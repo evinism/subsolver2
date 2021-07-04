@@ -1,13 +1,5 @@
 import { ReactElement, useState } from "react";
-import useEventListener from "@use-it/event-listener";
-import keysPressed from "../keyspressed";
-
-const getLettersPressed = () =>
-  new Set(
-    Array.from(keysPressed.getKeysPressed())
-      .filter((str) => str.startsWith("Key") || str === "Space")
-      .map((str) => str.toLowerCase().replace("key", ""))
-  );
+import { useKeysDown } from "./puzzle-util";
 
 interface UserInputHandlerProps {
   swap?: (letterA: string, letterB: string) => unknown;
@@ -37,7 +29,6 @@ const UserInputHandler = (props: UserInputHandlerProps) => {
     setLock = defaultSetLock,
     lockedLetters = new Set(),
   } = props;
-  const [keysDown, setKeysDown] = useState<Set<string>>(new Set());
   const [swapState, setSwapState] = useState<SwapState>({
     type: "none",
   });
@@ -71,20 +62,7 @@ const UserInputHandler = (props: UserInputHandlerProps) => {
     }
   };
 
-  const keyDownHandler = () => {
-    const next = getLettersPressed();
-    setKeysDown(next);
-    handleSwapState(next);
-  };
-
-  const keyUpHandler = () => {
-    const next = getLettersPressed();
-    setKeysDown(next);
-    handleSwapState(next);
-  };
-
-  useEventListener("keydown", keyDownHandler);
-  useEventListener("keyup", keyUpHandler);
+  const keysDown = useKeysDown(handleSwapState);
 
   let swapStateRep: ReactElement | null = null;
   if (swapState.type === "swap") {

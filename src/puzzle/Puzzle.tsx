@@ -8,12 +8,18 @@ import { shuffleArray } from "../util";
 import { Plaintext } from "../plaintexts";
 import { applyMapping } from "./mapping";
 import { Card } from "@material-ui/core";
+import PuzzleLock from "./PuzzleLock";
+import { getAllSolved } from "../solvedStore";
 
 export interface GameModifiers {
   hideSpaces?: boolean;
   showPunctuation?: boolean;
   keepCapitals?: boolean;
 }
+
+type PuzzleState = "locked" | "active" | "complete";
+
+const startLocked = () => getAllSolved().length === 0;
 
 interface PuzzleProps extends GameModifiers {
   plaintext: Plaintext;
@@ -34,7 +40,9 @@ function Puzzle({
   const initialMapping = useMemo(() => findInitialMapping(text), [text]);
   const [mapping, setMapping] = useState<string>(initialMapping);
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
-  const [complete, setComplete] = useState<boolean>(false);
+  const [puzzleState, setPuzzleState] = useState<PuzzleState>(
+    startLocked() ? "locked" : "active"
+  );
 
   const handleSwap = (a: string, b: string) => {
     const pushFailedSwap = (x: string) =>
@@ -49,14 +57,14 @@ function Puzzle({
       pushEvent(`"${a.toUpperCase()}" and "${b.toUpperCase()}" swapped.`);
       if (applyMapping(text, newMapping) === applyMapping(text, alphabet)) {
         pushEvent(`Puzzle #${id} solved`);
-        setComplete(true);
+        setPuzzleState("complete");
         onComplete();
       }
     }
   };
 
-  function suppressIfComplete(fn: any) {
-    return (...args: any) => !complete && fn(...args);
+  function suppressIfInactive(fn: any) {
+    return (...args: any) => puzzleState === "active" && fn(...args);
   }
 
   const handleLocked = (letter: string, locked: boolean) => {
@@ -84,9 +92,9 @@ function Puzzle({
   };
 
   return (
-    <div className="puzzle">
+    <div className={"puzzle " + puzzleState}>
       <Card className="puzzle-overlayable">
-        <div className={complete ? " blurred" : ""}>
+        <div className={puzzleState === "complete" ? "blurred" : ""}>
           <CipherTextDisplay
             text={applyMapping(text, mapping, {
               hideSpaces,
@@ -96,28 +104,29 @@ function Puzzle({
             lockedLetters={lockedLetters}
           />
         </div>
-        <div className="puzzle-buttons-hit-area">
-          <div className="puzzle-buttons-wrapper">
-            <div className="puzzle-buttons">
-              <button onClick={suppressIfComplete(restartLevel)}>
-                Restart
-              </button>
-              <button onClick={suppressIfComplete(unlockAllLetters)}>
-                Remove lock on all letters
-              </button>
-              <button onClick={suppressIfComplete(randomizeMapping)}>
-                Randomize
-              </button>
-            </div>
+        <div className="puzzle-buttons-wrapper">
+          <div className="puzzle-buttons">
+            <button onClick={suppressIfInactive(restartLevel)}>Restart</button>
+            <button onClick={suppressIfInactive(unlockAllLetters)}>
+              Remove lock on all letters
+            </button>
+            <button onClick={suppressIfInactive(randomizeMapping)}>
+              Randomize
+            </button>
           </div>
         </div>
-        {complete && (
-          <div className="puzzle-solved-overlay">{solvedOverlay}</div>
+        {puzzleState === "complete" && (
+          <div className="puzzle-overlay puzzle-solved-overlay">
+            {solvedOverlay}
+          </div>
+        )}
+        {puzzleState === "locked" && (
+          <PuzzleLock unlock={() => setPuzzleState("active")} />
         )}
       </Card>
       <UserInputHandler
-        swap={suppressIfComplete(handleSwap)}
-        setLock={suppressIfComplete(handleLocked)}
+        swap={suppressIfInactive(handleSwap)}
+        setLock={suppressIfInactive(handleLocked)}
         lockedLetters={lockedLetters}
       />
     </div>

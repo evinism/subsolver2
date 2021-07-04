@@ -36,20 +36,13 @@
   transition: opacity ease-out 0.2s;
 }
 
-.puzzle-buttons-hit-area {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  bottom: 0;
-}
-
 .puzzle-buttons-wrapper {
   position: absolute;
   width: 100%;
   bottom: 0;
 }
 
-.puzzle-buttons-hit-area:hover .puzzle-buttons {
+.puzzle.active:hover .puzzle-buttons {
   transform: translateY(0%);
 }
 
@@ -70,8 +63,15 @@
   }
 }
 
+.puzzle-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
 .puzzle-solved-overlay {
-  animation: fade_over 1s linear;
+  animation: fade_in 1s linear;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -83,12 +83,21 @@
   overflow: hidden;
 }
 
-@keyframes fade_over {
+@keyframes fade_in {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fade_out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 
@@ -112,4 +121,35 @@
   display: flex;
   justify-content: space-between;
   color: #666;
+}
+
+.puzzle .puzzle-lock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #444;
+  font-size: 1.2rem;
+}
+
+.puzzle-lock .key-indicator {
+  display: inline-block;
+  padding: 0.15rem;
+  border-radius: 0.2rem;
+  border: 1px solid black;
+  width: 2rem;
+  height: 2rem;
+  font-family: monospace;
+}
+
+.puzzle-lock .key-indicator.pressed {
+  border-color: lightgray;
+}
+
+.puzzle-lock.released .key-indicator {
+  animation: letter_change ease-out 1s;
+}
+
+.puzzle-lock.released {
+  animation: fade_in 1.5s ease-in-out reverse;
+  opacity: 0;
 }
