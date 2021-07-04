@@ -141,7 +141,7 @@
   font-size: 1.2rem;
 }
 
-.puzzle-lock .key-indicator {
+.key-indicator {
   display: inline-block;
   padding: 0.15rem;
   border-radius: 0.2rem;
@@ -151,7 +151,7 @@
   font-family: monospace;
 }
 
-.puzzle-lock .key-indicator.pressed {
+.key-indicator.pressed {
   border-color: lightgray;
   font-weight: bold;
 }

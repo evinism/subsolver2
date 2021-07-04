@@ -2,10 +2,13 @@ import { useKeysDown } from "./puzzle-util";
 
 interface CipherTextDisplayProps {
   text: string;
-  lockedLetters: Set<string>;
+  lockedLetters?: Set<string>;
 }
 
-const CipherTextDisplay = ({ text, lockedLetters }: CipherTextDisplayProps) => {
+const CipherTextDisplay = ({
+  text,
+  lockedLetters = new Set(),
+}: CipherTextDisplayProps) => {
   const keysDown = useKeysDown();
 
   const children = text.split("").map((letter, index) => {

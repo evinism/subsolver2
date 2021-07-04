@@ -1,6 +1,7 @@
 import "./App.css";
 import Classic from "./pages/Classic";
 import Home from "./pages/Home";
+import Tutorial from "./pages/Tutorial";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
@@ -41,6 +42,10 @@ function App() {
                 headerText="Casual"
                 gameModifiers={{ showPunctuation: true, keepCapitals: true }}
               />
+            </Route>
+            <Route path="/tutorial">
+              <Title title="Subsolver - Tutorial" />
+              <Tutorial />
             </Route>
             <Route path="/">
               <Home />

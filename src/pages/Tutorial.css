@@ -1,0 +1,16 @@
+.tutorial {
+  text-align: center;
+  font-size: 1rem;
+}
+
+.tutorial-page-three .horiz {
+  display: flex;
+  align-items: center;
+}
+.tutorial-page-three .horiz > * {
+  flex-basis: 50%;
+}
+
+.tutorial-page-three .key-indicator {
+  margin: 0.5rem;
+}
