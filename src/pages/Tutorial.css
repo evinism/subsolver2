@@ -3,14 +3,34 @@
   font-size: 1rem;
 }
 
-.tutorial-page-three .horiz {
+.tutorial-page-three .horiz,
+.tutorial-page-four .horiz {
   display: flex;
   align-items: center;
 }
-.tutorial-page-three .horiz > * {
+.tutorial-page-three .horiz > *,
+.tutorial-page-four .horiz > * {
   flex-basis: 50%;
 }
 
-.tutorial-page-three .key-indicator {
+.tutorial-page-three .key-indicator,
+.tutorial-page-four .key-indicator {
   margin: 0.5rem;
+}
+.tutorial {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.tutorial-nav-buttons {
+  padding: 1rem;
+  border-top: 1px solid #666;
+}
+
+.tutorial .current-page-container {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
 }

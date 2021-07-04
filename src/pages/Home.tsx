@@ -43,6 +43,13 @@ const Home = () => (
           description="Spaces have been removed!"
         />
       </Grid>
+      <Grid container spacing={2}>
+        <GameModeLink
+          to="/tutorial"
+          title="Tutorial"
+          description="Learn the basics of how to play this game!"
+        />
+      </Grid>
     </article>
   </div>
 );

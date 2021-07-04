@@ -1,6 +1,8 @@
 import "./Tutorial.css";
 import CipherTextDisplay from "../puzzle/CipherTextDisplay";
 import { useEffect, useState } from "react";
+import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const encodedTexts = [
   "qh sr he nhq qh sr qoaq ib qoe turbqihn",
@@ -89,12 +91,89 @@ const PageThree = () => {
   );
 };
 
-const Tutorial = () => (
-  <div className="main-content tutorial">
-    <PageOne />
-    <PageTwo />
-    <PageThree />
-  </div>
-);
+const PageFour = () => {
+  const [stateCt, setStateCt] = useState<number>(0);
+
+  useEffect(() => {
+    let delay = 1000;
+    const timer = setTimeout(() => {
+      setStateCt((stateCt + 1) % 4);
+    }, delay);
+    return () => clearTimeout(timer);
+  });
+
+  const lockedLetters: Set<string> = stateCt >= 2 ? new Set(["t"]) : new Set();
+  const keyAddClass = stateCt % 2 !== 0 ? "pressed" : "";
+  return (
+    <div className="tutorial-page-four">
+      <p>
+        To lock a letter in place so you can't accidentaly change it, press and
+        release that letter along with space.
+      </p>
+      <div className="horiz">
+        <CipherTextDisplay
+          text="tx be xr nxt tx be that is the question"
+          lockedLetters={lockedLetters}
+        />
+        <div>
+          <span className={"key-indicator " + keyAddClass}>t</span>
+          <span className={"key-indicator " + keyAddClass}>_</span>
+        </div>
+      </div>
+      <p> Locked letters can be unlocked using the same method</p>
+    </div>
+  );
+};
+
+const pages = [PageOne, PageTwo, PageThree, PageFour];
+
+const Tutorial = () => {
+  const [page, setPage] = useState<number>(0);
+
+  const history = useHistory();
+  const CurrentPage = pages[page];
+  const isFirstPage = page === 0;
+  const isLastPage = page === pages.length - 1;
+
+  const nextPageHandler =
+    !isLastPage &&
+    (() => {
+      setPage(page + 1);
+    });
+
+  const prevPageHandler =
+    !isFirstPage &&
+    (() => {
+      setPage(page - 1);
+    });
+
+  const backToRootHandler =
+    isLastPage &&
+    (() => {
+      history.push("/");
+    });
+
+  return (
+    <div className="tutorial">
+      <div className="current-page-container">
+        <CurrentPage />
+      </div>
+      <div className="tutorial-nav-buttons">
+        <Button
+          onClick={prevPageHandler || undefined}
+          disabled={!prevPageHandler}
+        >
+          Previous Page
+        </Button>
+        {nextPageHandler && (
+          <Button onClick={nextPageHandler}>Next Page</Button>
+        )}
+        {backToRootHandler && (
+          <Button onClick={backToRootHandler}>Back to Home</Button>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default Tutorial;
