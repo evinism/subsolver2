@@ -33,10 +33,7 @@ const PuzzleLock = ({ unlock }: { unlock: () => void }) => {
   const secondKey = lockState === "released" ? "f" : "j";
   return (
     <div className={"puzzle-overlay puzzle-lock " + lockState}>
-      <p>
-        To begin, swap the letters f and g by simultaneously pressing and
-        releasing the following keys:
-      </p>
+      <p>To begin simultaneously press and release the following keys:</p>
       <div>
         <Key key={firstKey}>{firstKey}</Key> ↔{" "}
         <Key key={secondKey}>{secondKey}</Key>
