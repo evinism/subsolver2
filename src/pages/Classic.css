@@ -55,3 +55,12 @@
 .classic-page header {
   text-align: center;
 }
+
+.classic-page .back-button {
+  position: absolute;
+  left: 0;
+  padding: 0.2rem 1.5rem;
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+}

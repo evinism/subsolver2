@@ -5,6 +5,7 @@ import plaintexts from "../plaintexts";
 import { choose } from "../util";
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
+import { Link } from "react-router-dom";
 
 interface ClassicProps {
   headerText: string;
@@ -44,6 +45,9 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
   return (
     <div className="classic-page">
       <header>
+        <Link to="/" className="back-button">
+          ⟨ Back
+        </Link>
         <h2>Subsolver: {headerText}</h2>
       </header>
       <article className="main-content">
