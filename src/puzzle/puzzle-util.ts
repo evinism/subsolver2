@@ -10,7 +10,7 @@ const getLettersPressed = () =>
   );
 
 export const useKeysDown = (
-  handleKeysChange: (keys: Set<string>) => unknown
+  handleKeysChange: (keys: Set<string>) => unknown = () => {}
 ) => {
   const [keysDown, setKeysDown] = useState<Set<string>>(new Set());
 

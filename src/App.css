@@ -7,11 +7,6 @@
   padding: 1px 0;
 }
 
-span.locked {
-  background-color: #111;
-  color: #aaa;
-}
-
 .main-content {
   position: relative;
   margin: auto;

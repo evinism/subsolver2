@@ -64,9 +64,10 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
           solvedOverlay={
             <div className="success-overlay">
               <div>
+                <h3>[ Solved ]</h3>
                 <p>{plainText.text}</p>
                 <div className="success-author-origin">
-                  <i>--{plainText.author}</i>
+                  <i>—{plainText.author}</i>
                   <br />
                   {plainText.origin}
                 </div>

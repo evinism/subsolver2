@@ -1,20 +1,28 @@
+import { useKeysDown } from "./puzzle-util";
+
 interface CipherTextDisplayProps {
   text: string;
   lockedLetters: Set<string>;
 }
 
 const CipherTextDisplay = ({ text, lockedLetters }: CipherTextDisplayProps) => {
-  const children = text.split("").map((letter, index) => (
-    <span
-      className={
-        "puzzle-letter " +
-        (lockedLetters.has(letter.toLowerCase()) ? "locked" : "unlocked")
-      }
-      key={letter + index}
-    >
-      {letter}
-    </span>
-  ));
+  const keysDown = useKeysDown();
+
+  const children = text.split("").map((letter, index) => {
+    const lowerCased = letter.toLowerCase();
+    return (
+      <span
+        className={
+          "puzzle-letter " +
+          (lockedLetters.has(lowerCased) ? "locked" : "unlocked") +
+          (keysDown.has(lowerCased) ? " pressed" : "")
+        }
+        key={letter + index}
+      >
+        {letter}
+      </span>
+    );
+  });
 
   return <div className="cipher-text-display">{children}</div>;
 };

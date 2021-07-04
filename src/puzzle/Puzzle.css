@@ -1,4 +1,4 @@
-.puzzle .cipher-text-display {
+.cipher-text-display {
   background-color: #444;
   padding: 1rem;
   word-break: break-word;
@@ -7,6 +7,16 @@
   letter-spacing: 0.1rem;
   font-family: monospace;
   padding-bottom: 1.5rem;
+  color: white;
+}
+
+.cipher-text-display .pressed {
+  font-weight: bold;
+}
+
+.cipher-text-display .locked {
+  background-color: #111;
+  color: #aaa;
 }
 
 .puzzle-letter {
@@ -143,6 +153,7 @@
 
 .puzzle-lock .key-indicator.pressed {
   border-color: lightgray;
+  font-weight: bold;
 }
 
 .puzzle-lock.released .key-indicator {
