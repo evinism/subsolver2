@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import Helmet from "react-helmet";
+import TouchscreenInputHandler from "./puzzle/TouchscreenInputHandler";
 
 const theme = createMuiTheme({
   palette: {
@@ -46,6 +47,9 @@ function App() {
             <Route path="/tutorial">
               <Title title="Subsolver - Tutorial" />
               <Tutorial />
+            </Route>
+            <Route path="/test">
+              <TouchscreenInputHandler />
             </Route>
             <Route path="/">
               <Home />

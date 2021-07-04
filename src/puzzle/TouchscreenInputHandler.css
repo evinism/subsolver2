@@ -1,0 +1,39 @@
+.touchscreen-input-handler-wrapper {
+  height: 50vw;
+  background-color: #333;
+}
+
+.touchscreen-input-handler {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  background-color: #444;
+  padding: 0.2rem 0;
+}
+
+.faux-keyboard {
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+
+.faux-keyboard .row {
+  padding: 1px 0;
+  white-space: nowrap;
+}
+.faux-keyboard .key {
+  font-size: 1rem;
+  min-width: 10%; /* 1/10th */
+  padding: 1vw 0;
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 0.2rem;
+  font-family: monospace;
+}
+
+.faux-keyboard .key-big {
+  padding: 1vw 3vw;
+}
