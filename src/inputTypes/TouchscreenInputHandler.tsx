@@ -1,7 +1,8 @@
 import "./TouchscreenInputHandler.css";
 import { Portal } from "@material-ui/core";
 import useEventListener from "@use-it/event-listener";
-import { ReactNode, TouchEvent, useState } from "react";
+import { ReactNode, useState } from "react";
+import { UserInputHandlerProps } from "./sharedTypes";
 
 const keyboardLayout = [
   "qwertyuiop".split(""),
@@ -14,12 +15,16 @@ type SwapState = {
   b?: string;
 };
 
-const TouchscreenInputHandler = () => {
+const TouchscreenInputHandler = ({
+  swap = () => {},
+  setLock = () => {},
+  lockedLetters = new Set(),
+}: UserInputHandlerProps) => {
   const maybeGetData = (event: any) => {
-    const { pageX, pageY } = event.touches[0];
+    const { clientX, clientY } = event.touches[0];
     const eventTarget = document.elementFromPoint(
-      pageX,
-      pageY
+      clientX,
+      clientY
     ) as HTMLElement | void;
     return eventTarget?.attributes?.getNamedItem("data-faux-keyboard-key")
       ?.value;
@@ -50,6 +55,16 @@ const TouchscreenInputHandler = () => {
 
   useEventListener("touchend", () => {
     setSwapState();
+    if (!swapState || !swapState.b) {
+      return;
+    }
+    if (swapState.a === "space") {
+      setLock(swapState.b, !lockedLetters.has(swapState.b));
+    } else if (swapState.b === "space") {
+      setLock(swapState.a, !lockedLetters.has(swapState.a));
+    } else {
+      swap(swapState.a, swapState.b);
+    }
   });
 
   let swapRep: string | undefined = undefined;

@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import Helmet from "react-helmet";
-import TouchscreenInputHandler from "./puzzle/TouchscreenInputHandler";
+import TouchscreenInputHandler from "./inputTypes/TouchscreenInputHandler";
 
 const theme = createMuiTheme({
   palette: {

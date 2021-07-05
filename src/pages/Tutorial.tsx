@@ -3,6 +3,7 @@ import CipherTextDisplay from "../puzzle/CipherTextDisplay";
 import { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { isTouchscreen } from "../util";
 
 const encodedTexts = [
   "qh sr he nhq qh sr qoaq ib qoe turbqihn",
@@ -74,12 +75,14 @@ const PageThree = () => {
 
   const ciphertext = stateCt >= 2 ? "abbey" : "baaey";
   const keyAddClass = stateCt % 2 !== 0 ? "pressed" : "";
+
+  const helpText = !isTouchscreen()
+    ? "To swap two letters in the puzzle, simply press and release them on your keyboard simultaneously."
+    : "To swap two letters in the puzzle, drag from one letter to another on the virtual keyboard.";
+
   return (
     <div className="tutorial-page-three">
-      <p>
-        To swap two letters in the puzzle, simply press and release them on your
-        keyboard simultaneously.
-      </p>
+      <p>{helpText}</p>
       <div className="horiz">
         <CipherTextDisplay text={ciphertext} />
         <div>
@@ -102,14 +105,15 @@ const PageFour = () => {
     return () => clearTimeout(timer);
   });
 
+  const helpText = !isTouchscreen()
+    ? "To lock a letter in place so you can't accidentaly change it, press and release that letter along with space."
+    : "On mobile, drag between the Lock button on the keyboard to whatever letter you want to lock or unlock.";
+
   const lockedLetters: Set<string> = stateCt >= 2 ? new Set(["t"]) : new Set();
   const keyAddClass = stateCt % 2 !== 0 ? "pressed" : "";
   return (
     <div className="tutorial-page-four">
-      <p>
-        To lock a letter in place so you can't accidentaly change it, press and
-        release that letter along with space.
-      </p>
+      <p>{helpText}</p>
       <div className="horiz">
         <CipherTextDisplay
           text="tx be xr nxt tx be that is the question"

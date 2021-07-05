@@ -19,3 +19,11 @@ export function unique<T>(arr: T[]): T[] {
   }
   return arr.filter(onlyUnique);
 }
+
+export function isTouchscreen(): boolean {
+  return (
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0
+  );
+}

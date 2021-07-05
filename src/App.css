@@ -5,6 +5,7 @@
   color: white;
   /* To disable margin stack */
   padding: 1px 0;
+  overflow-x: hidden;
 }
 
 .main-content {

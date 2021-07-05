@@ -1,5 +1,4 @@
 import "./Puzzle.css";
-import UserInputHandler from "./UserInputHandler";
 import CipherTextDisplay from "./CipherTextDisplay";
 import { ReactElement, useMemo, useState } from "react";
 import { swapLetters, findInitialMapping } from "./mapping";
@@ -8,9 +7,10 @@ import { shuffleArray } from "../util";
 import { Plaintext } from "../plaintexts";
 import { applyMapping } from "./mapping";
 import { Card } from "@material-ui/core";
-import PuzzleLock from "./PuzzleLock";
+import KeyboardPuzzleLock from "./KeyboardPuzzleLock";
 import { getAllSolved } from "../solvedStore";
 import { recordEvent } from "../tracking";
+import getInputSchema from "../inputTypes";
 
 export interface GameModifiers {
   hideSpaces?: boolean;
@@ -20,7 +20,10 @@ export interface GameModifiers {
 
 type PuzzleState = "locked" | "active" | "complete";
 
-const startLocked = () => getAllSolved().length === 0;
+const startLocked = () => {
+  const { lockable } = getInputSchema();
+  return lockable && getAllSolved().length === 0;
+};
 
 interface PuzzleProps extends GameModifiers {
   plaintext: Plaintext;
@@ -38,6 +41,8 @@ function Puzzle({
   showPunctuation,
   keepCapitals,
 }: PuzzleProps) {
+  const { inputHandler: InputHandler } = getInputSchema();
+
   const initialMapping = useMemo(() => findInitialMapping(text), [text]);
   const [mapping, setMapping] = useState<string>(initialMapping);
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
@@ -129,10 +134,10 @@ function Puzzle({
           </div>
         )}
         {puzzleState === "locked" && (
-          <PuzzleLock unlock={() => setPuzzleState("active")} />
+          <KeyboardPuzzleLock unlock={() => setPuzzleState("active")} />
         )}
       </Card>
-      <UserInputHandler
+      <InputHandler
         swap={suppressIfInactive(handleSwap)}
         setLock={suppressIfInactive(handleLocked)}
         lockedLetters={lockedLetters}

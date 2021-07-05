@@ -1,11 +1,6 @@
 import { ReactElement, useState } from "react";
-import { useKeysDown } from "./puzzle-util";
-
-interface UserInputHandlerProps {
-  swap?: (letterA: string, letterB: string) => unknown;
-  setLock?: (letter: string, lockState: boolean) => unknown;
-  lockedLetters?: Set<string>;
-}
+import { useKeysDown } from "../puzzle/puzzle-util";
+import { UserInputHandlerProps } from "./sharedTypes";
 
 const defaultSwap: UserInputHandlerProps["swap"] = (a, b) =>
   console.log(`Swapped ${a} and ${b}!`);
