@@ -19,6 +19,8 @@ const GameModeLink = ({ to, title, description }: GameModeLinkProps) => (
 
 const Home = () => (
   <div className="home-page">
+    <div className="bgscroll" />
+
     <h1>
       Subsolver
       <span className="home-page-subtitle">
