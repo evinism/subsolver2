@@ -2,11 +2,25 @@
   text-decoration: none;
 }
 
-.home-page .main-content {
-  top: calc(23vh - 6rem);
-  max-width: 40rem;
+.home-page > h1 {
+  flex-shrink: 1;
 }
 
 .home-page {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-mode-card {
+  height: 100%;
+}
+
+@media only screen and (max-width: 720px) {
+  .home-page .home-page-subtitle {
+    display: none;
+  }
+  .home-page .home-page-subtitle {
+    display: none;
+  }
 }

@@ -9,46 +9,53 @@ interface GameModeLinkProps {
 }
 
 const GameModeLink = ({ to, title, description }: GameModeLinkProps) => (
-  <Grid item xs>
-    <Link to={to}>
-      <Card className="game-mode-card">
-        <CardHeader title={title} />
-        <CardContent>{description}</CardContent>
-      </Card>
-    </Link>
-  </Grid>
+  <Link to={to}>
+    <Card className="game-mode-card">
+      <CardHeader title={title} />
+      <CardContent>{description}</CardContent>
+    </Card>
+  </Link>
 );
 
 const Home = () => (
   <div className="home-page">
-    <h1>Subsolver: Online Substitution Cipher Game</h1>
+    <h1>
+      Subsolver
+      <span className="home-page-subtitle">
+        : Online Substitution Cipher Game
+      </span>
+    </h1>
     <article className="main-content">
       <h2>Select a Game Mode</h2>
-      <Grid container spacing={2}>
-        <GameModeLink
-          to="/classic"
-          title="Classic"
-          description="Solve substitution ciphers at your own pace."
-        />
-      </Grid>
-      <Grid container spacing={2}>
-        <GameModeLink
-          to="/casual"
-          title="Casual"
-          description="Punctuation and capitalization included!"
-        />
-        <GameModeLink
-          to="/hard"
-          title="Hardcore"
-          description="Spaces have been removed!"
-        />
-      </Grid>
-      <Grid container spacing={2}>
-        <GameModeLink
-          to="/tutorial"
-          title="Tutorial"
-          description="Learn the basics of how to play this game!"
-        />
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <GameModeLink
+            to="/classic"
+            title="Classic"
+            description="Solve substitution ciphers at your own pace."
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <GameModeLink
+            to="/casual"
+            title="Casual"
+            description="Punctuation and capitalization included!"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <GameModeLink
+            to="/hard"
+            title="Hardcore"
+            description="Spaces have been removed!"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <GameModeLink
+            to="/tutorial"
+            title="Tutorial"
+            description="Learn the basics of how to play this game!"
+          />
+        </Grid>
       </Grid>
     </article>
   </div>
