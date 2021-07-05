@@ -18,6 +18,7 @@
   width: 100%;
   position: relative;
   text-align: center;
+  touch-action: none;
 }
 
 .faux-keyboard .row {
@@ -27,7 +28,7 @@
 .faux-keyboard .key {
   font-size: 1rem;
   min-width: 10%; /* 1/10th */
-  padding: 1vw 0;
+  padding: 0.5rem 0;
   display: inline-block;
   border: 1px solid black;
   border-radius: 0.2rem;
@@ -35,5 +36,25 @@
 }
 
 .faux-keyboard .key-big {
-  padding: 1vw 3vw;
+  padding: 0.5rem 3vw;
+}
+
+.faux-keyboard .key.pressed {
+  border-color: white;
+}
+
+.touchscreen-input-handler .swap-rep-wrapper {
+  position: absolute;
+  bottom: 110%;
+  width: 100%;
+}
+
+.touchscreen-input-handler .swap-rep {
+  margin: auto;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  background-color: #444;
+  border-radius: 0.2rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  font-size: 1.2rem;
 }
