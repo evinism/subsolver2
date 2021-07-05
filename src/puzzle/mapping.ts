@@ -20,7 +20,7 @@ const _normalizeText = (
   }
   text = text.replace(/[\s]+/g, " ");
   if (!showPunctuation) {
-    text = text.replace(/-/g, " ");
+    text = text.replace(/[-…—]/g, " ");
   }
   if (!showPunctuation) {
     const rejectionRegex = hideSpaces ? /[^a-zA-Z]/g : /[^a-zA-Z ]/g;

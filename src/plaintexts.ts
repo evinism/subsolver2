@@ -78,7 +78,7 @@ const plaintexts: Plaintext[] = [
   },
   {
     id: "11",
-    text: "The scientific soul of matter, its irreducible essence, was mass. Mass defined matter's resistance to motion, its inertia. Mass was unchangeable, \"conserved.\" It could be transferred from one body to another but could never be gained or lost. For Newton, mass defined quality of matter. In Newton's physics, mass provided the link between force and motion, and it provided the source of gravity. For Lavoisier, the persistence of mass, its accurate conservation, provided the foundation of chem}istry and offered a fruitful guide to discovery. If mass seems to disappear, look for it in new forms",
+    text: "The scientific soul of matter, its irreducible essence, was mass. Mass defined matter's resistance to motion, its inertia. Mass was unchangeable, \"conserved.\" It could be transferred from one body to another but could never be gained or lost. For Newton, mass defined quality of matter. In Newton's physics, mass provided the link between force and motion, and it provided the source of gravity. For Lavoisier, the persistence of mass, its accurate conservation, provided the foundation of chemistry and offered a fruitful guide to discovery. If mass seems to disappear, look for it in new forms",
     author: "Frank Wilczek",
     origin: "excerpt from *The Lightness of Being*",
   },
