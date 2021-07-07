@@ -13,7 +13,18 @@ interface ClassicProps {
   gameModifiers?: GameModifiers;
 }
 
-const chooseUnsolvedIfPossible = () => {
+const chooseNextPlaintext = () => {
+  const location = window.location;
+  if (/^#puzzle:[0-9]+$/.test(location.hash)) {
+    const hashPuzzleId = location.hash.split(":")[1];
+    const plaintext = plaintexts.find(
+      (plaintext) => plaintext.id === hashPuzzleId
+    );
+
+    if (plaintext) {
+      return plaintext;
+    }
+  }
   let solved = getAllSolved();
   if (plaintexts.length === solved.length) {
     return choose(plaintexts);
@@ -25,7 +36,7 @@ const chooseUnsolvedIfPossible = () => {
 };
 
 const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
-  const [plainText, setPlainText] = useState(chooseUnsolvedIfPossible());
+  const [plainText, setPlainText] = useState(chooseNextPlaintext());
   const [events, setEvents] = useState<string[]>([
     `Started puzzle #${plainText.id}`,
   ]);
@@ -45,7 +56,15 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
   };
 
   const startNewPuzzle = () => {
-    setPlainText(chooseUnsolvedIfPossible());
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.href.substr(
+        0,
+        window.location.href.length - window.location.hash.length
+      )
+    );
+    setPlainText(chooseNextPlaintext());
     pushEvent(`Started puzzle #${plainText.id}`);
   };
 
