@@ -4,6 +4,7 @@
 
 .home-page > h1 {
   flex-shrink: 1;
+  margin-bottom: 0.8rem;
 }
 
 .home-page {
@@ -16,11 +17,28 @@
   height: 100%;
 }
 
-@media only screen and (max-width: 720px) {
-  .home-page .home-page-subtitle {
-    display: none;
-  }
-  .home-page .home-page-subtitle {
-    display: none;
-  }
+.home-page-title {
+  position: relative;
+  font-family: monospace;
+}
+
+.home-page-title span {
+  position: relative;
+}
+
+.home-logo {
+  height: 2rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  /*position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);*/
+}
+
+.home-page-subtitle {
+  font-family: monospace;
+  display: block;
+  color: gray;
+  font-size: 1.2rem;
 }

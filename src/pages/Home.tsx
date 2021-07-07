@@ -20,10 +20,11 @@ const GameModeLink = ({ to, title, description }: GameModeLinkProps) => (
 const Home = () => (
   <div className="home-page">
     <h1>
-      Subsolver
-      <span className="home-page-subtitle">
-        : Online Substitution Cipher Game
+      <span className="home-page-title">
+        <img className="home-logo" src="/logo512.png" alt="" />
+        <span>Subsolver</span>
       </span>
+      <span className="home-page-subtitle">A Substitution Cipher Game!</span>
     </h1>
     <article className="main-content">
       <h2>Select a Game Mode</h2>
