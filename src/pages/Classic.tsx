@@ -91,10 +91,10 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
             forceUpdate();
           }}
           pushEvent={pushEvent}
-          solvedOverlay={
+          solvedOverlay={(solvedTime: string) => (
             <div className="success-overlay">
               <div>
-                <h3>Puzzle Solved</h3>
+                <h3>Puzzle Solved in {solvedTime}</h3>
                 <p>{plainText.text}</p>
                 <div className="success-author-origin">
                   <i>—{plainText.author}</i>
@@ -102,11 +102,11 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
                   {plainText.origin}
                 </div>
               </div>
-              <div>
+              <div className="success-button-group">
                 <button onClick={startNewPuzzle}>Next Puzzle</button>
               </div>
             </div>
-          }
+          )}
           {...gameModifiers}
         />
         <p>

@@ -3,7 +3,7 @@ import CipherTextDisplay from "./CipherTextDisplay";
 import { ReactElement, useMemo, useState } from "react";
 import { swapLetters, findInitialMapping } from "./mapping";
 import { alphabet } from "../constants";
-import { shuffleArray } from "../util";
+import { hrTime, shuffleArray } from "../util";
 import { Plaintext } from "../plaintexts";
 import { applyMapping } from "./mapping";
 import { Card } from "@material-ui/core";
@@ -28,7 +28,7 @@ const startLocked = () => {
 interface PuzzleProps extends GameModifiers {
   plaintext: Plaintext;
   onComplete: () => void;
-  solvedOverlay: ReactElement;
+  solvedOverlay: (solvedTime: string) => ReactElement;
   pushEvent: (evtStr: string) => unknown;
 }
 
@@ -51,9 +51,11 @@ function Puzzle({
     startLocked() ? "locked" : "active"
   );
 
+  // Puzzle start and end times
   const [puzzleStartTime, setPuzzleStartTime] = useState<Date | void>(
     shouldStartLocked ? undefined : new Date()
   );
+  const [puzzleEndTime, setPuzzleEndTime] = useState<Date | void>();
 
   const handleSwap = (a: string, b: string) => {
     const pushFailedSwap = (x: string) =>
@@ -70,17 +72,27 @@ function Puzzle({
       if (applyMapping(text, newMapping) === applyMapping(text, alphabet)) {
         pushEvent(`Puzzle #${id} solved`);
         const allSolved = getAllSolved();
+        const puzzleEndTime = new Date();
         recordEvent("ss_solve", {
           puzzleId: id,
           startTime: puzzleStartTime!.toJSON(),
-          endTime: new Date().toJSON(),
+          endTime: puzzleEndTime.toJSON(),
+          solvedTime: getSolvedTime(),
           solved: JSON.stringify(allSolved),
           solvedCount: allSolved.length.toString(),
         });
+        setPuzzleEndTime(puzzleEndTime);
         setPuzzleState("complete");
         onComplete();
       }
     }
+  };
+
+  const getSolvedTime = () => {
+    if (!puzzleStartTime || !puzzleEndTime) {
+      return "";
+    }
+    return hrTime(puzzleEndTime.getTime() - puzzleStartTime.getTime());
   };
 
   function suppressIfInactive(fn: any) {
@@ -142,7 +154,7 @@ function Puzzle({
         </div>
         {puzzleState === "complete" && (
           <div className="puzzle-overlay puzzle-solved-overlay">
-            {solvedOverlay}
+            {solvedOverlay(getSolvedTime())}
           </div>
         )}
         {puzzleState === "locked" && (
