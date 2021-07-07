@@ -13,6 +13,19 @@ interface ClassicProps {
   gameModifiers?: GameModifiers;
 }
 
+const copySelfLink = () => {
+  const copyText = document.getElementById("puzzle-self-link") as any;
+  if (!copyText) {
+    return;
+  }
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  document.execCommand("copy");
+  const selection = window.getSelection();
+  selection && selection.removeAllRanges();
+};
+
 const chooseNextPlaintext = () => {
   const location = window.location;
   if (/^#puzzle:[0-9]+$/.test(location.hash)) {
@@ -68,6 +81,9 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
     pushEvent(`Started puzzle #${plainText.id}`);
   };
 
+  const puzzleSelfLink =
+    window.location.href.replace(/#.*/, "") + `#puzzle:${plainText.id}`;
+
   return (
     <div className="classic-page">
       <header>
@@ -103,6 +119,7 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
                 </div>
               </div>
               <div className="success-button-group">
+                <button onClick={copySelfLink}>Copy Puzzle Link</button>
                 <button onClick={startNewPuzzle}>Next Puzzle</button>
               </div>
             </div>
@@ -114,6 +131,7 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
           <br />
           Press one letter with space to toggle whether it's locked!
         </p>
+        <input type="text" id="puzzle-self-link" value={puzzleSelfLink} />
         <EventStream events={events} />
       </article>
     </div>

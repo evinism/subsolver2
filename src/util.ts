@@ -29,7 +29,6 @@ export function isTouchscreen(): boolean {
 }
 
 export function hrTime(millis: number): string {
-  const roundAmt = 10;
   const seconds = millis / 1000;
   var levels: [number, string][] = [
     [Math.floor(seconds / 31536000), "y"],

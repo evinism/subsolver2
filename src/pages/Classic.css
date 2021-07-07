@@ -74,3 +74,14 @@
   color: white;
   text-decoration: none;
 }
+
+.success-button-group {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+#puzzle-self-link {
+  opacity: 0.01;
+  background-color: transparent;
+}
