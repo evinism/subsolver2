@@ -7,6 +7,7 @@ import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
 import { Link } from "react-router-dom";
 import { recordEvent } from "../tracking";
+import getInputSchema from "../inputTypes";
 
 interface ClassicProps {
   headerText: string;
@@ -126,11 +127,7 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
           )}
           {...gameModifiers}
         />
-        <p>
-          Press two letters simultaneously to swap them!
-          <br />
-          Press one letter with space to toggle whether it's locked!
-        </p>
+        <p>{getInputSchema().bottomHelpText}</p>
         <input type="text" id="puzzle-self-link" value={puzzleSelfLink} />
         <EventStream events={events} />
       </article>

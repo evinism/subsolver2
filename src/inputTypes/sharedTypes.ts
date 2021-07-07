@@ -9,4 +9,5 @@ export interface UserInputHandlerProps {
 export interface InputSchema {
   lockable: boolean;
   inputHandler: FunctionComponent<UserInputHandlerProps>;
+  bottomHelpText: React.ReactNode;
 }
