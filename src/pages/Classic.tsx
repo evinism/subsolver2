@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Puzzle, { GameModifiers } from "../puzzle/Puzzle";
 import EventStream from "../EventStream";
 import plaintexts from "../plaintexts";
@@ -6,6 +6,7 @@ import { choose } from "../util";
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
 import { Link } from "react-router-dom";
+import { recordEvent } from "../tracking";
 
 interface ClassicProps {
   headerText: string;
@@ -29,6 +30,12 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
     `Started puzzle #${plainText.id}`,
   ]);
   const forceUpdate = useReducer((x) => x + 1, 0)[1];
+
+  useEffect(() => {
+    recordEvent("ss_puzzle_start", {
+      puzzleId: plainText.id,
+    });
+  }, [plainText.id]);
 
   const pushEvent = (ev: string) => {
     const MAX_EVENTS = 64;

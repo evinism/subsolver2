@@ -43,11 +43,16 @@ function Puzzle({
 }: PuzzleProps) {
   const { inputHandler: InputHandler } = getInputSchema();
 
+  const shouldStartLocked = startLocked();
   const initialMapping = useMemo(() => findInitialMapping(text), [text]);
   const [mapping, setMapping] = useState<string>(initialMapping);
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
   const [puzzleState, setPuzzleState] = useState<PuzzleState>(
     startLocked() ? "locked" : "active"
+  );
+
+  const [puzzleStartTime, setPuzzleStartTime] = useState<Date | void>(
+    shouldStartLocked ? undefined : new Date()
   );
 
   const handleSwap = (a: string, b: string) => {
@@ -64,7 +69,14 @@ function Puzzle({
       pushEvent(`"${a.toUpperCase()}" and "${b.toUpperCase()}" swapped.`);
       if (applyMapping(text, newMapping) === applyMapping(text, alphabet)) {
         pushEvent(`Puzzle #${id} solved`);
-        recordEvent("ss_solve", { puzzleId: id });
+        const allSolved = getAllSolved();
+        recordEvent("ss_solve", {
+          puzzleId: id,
+          startTime: puzzleStartTime!.toJSON(),
+          endTime: new Date().toJSON(),
+          solved: JSON.stringify(allSolved),
+          solvedCount: allSolved.length.toString(),
+        });
         setPuzzleState("complete");
         onComplete();
       }
@@ -76,7 +88,7 @@ function Puzzle({
   }
 
   const handleLocked = (letter: string, locked: boolean) => {
-    recordEvent("ss_ss_toggle_letter_locked", {
+    recordEvent("ss_toggle_letter_locked", {
       letter,
       locked: locked.toString(),
       puzzleId: id,
@@ -134,7 +146,12 @@ function Puzzle({
           </div>
         )}
         {puzzleState === "locked" && (
-          <KeyboardPuzzleLock unlock={() => setPuzzleState("active")} />
+          <KeyboardPuzzleLock
+            unlock={() => {
+              setPuzzleState("active");
+              setPuzzleStartTime(new Date());
+            }}
+          />
         )}
       </Card>
       <InputHandler
