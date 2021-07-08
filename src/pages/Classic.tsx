@@ -8,6 +8,7 @@ import { getAllSolved, setSolved } from "../solvedStore";
 import { Link } from "react-router-dom";
 import { recordEvent } from "../tracking";
 import getInputSchema from "../inputTypes";
+import { shareTime, cameFromFacebook } from "../fb";
 
 interface ClassicProps {
   headerText: string;
@@ -120,7 +121,13 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
                 </div>
               </div>
               <div className="success-button-group">
-                <button onClick={copySelfLink}>Copy Puzzle Link</button>
+                {cameFromFacebook() ? (
+                  <button onClick={() => shareTime(plainText.id, solvedTime)}>
+                    Share Time on FB
+                  </button>
+                ) : (
+                  <button onClick={copySelfLink}>Copy Puzzle Link</button>
+                )}
                 <button onClick={startNewPuzzle}>Next Puzzle</button>
               </div>
             </div>
