@@ -161,7 +161,7 @@ const plaintexts: Plaintext[] = [
   },
   {
     id: "24",
-    text: "Those who came before us made certain that this country rode the first waves of the industrial revolutions, the first waves of modern invention, and the first wave of nuclear power, and this generation does not intend to founder in the backwash of the coming age of space. We mean to be a part of it--we mean to lead it. For the eyes of the world now look into space, to the moon and to the planets beyond, and we have vowed that we shall not see it governed by a hostile flag of conquest, but by a banner of freedom and peace. We have vowed that we shall not see space filled with weapons of mass destruction, but with instruments of knowledge and understanding.",
+    text: "Those who came before us made certain that this country rode the first waves of the industrial revolutions, the first waves of modern invention, and the first wave of nuclear power, and this generation does not intend to founder in the backwash of the coming age of space. We mean to be a part of it—we mean to lead it. For the eyes of the world now look into space, to the moon and to the planets beyond, and we have vowed that we shall not see it governed by a hostile flag of conquest, but by a banner of freedom and peace. We have vowed that we shall not see space filled with weapons of mass destruction, but with instruments of knowledge and understanding.",
     author: "John F. Kennedy",
     origin:
       "excerpt from *Address at Rice University on the Nation's Space Effort*",
@@ -750,6 +750,30 @@ const plaintexts: Plaintext[] = [
     author: "Charlotte Perkins Gilman",
     origin: "Excerpt from *The Yellow Wallpaper*",
     notes: "Via Sparknotes",
+  },
+  {
+    id: "109",
+    text: "Once again I've let a few lazy days slip by without accomplishing anything. You know, the kind of days when you sleep late because there's nothing important to do, then go out until the room has been made up, and then study until fatigue sets in. Then you loaf around for a while and half-heartedly look forward to dinner, listlessly contemplating highly philosophical questions while whistling a little ... How was I able to live alone before, my little everything? Without you I lack self-confidence, passion for work, and enjoyment of life—in short, without you, my life is no life.",
+    author: "Albert Einstein",
+    origin:
+      "Excerpt from Einstein's letter to *Mileva Marić*. Translated by *Shawn Smith*",
+    notes: "From Agnes's book collection.",
+  },
+  {
+    id: "110",
+    text: "Often we think we hear in music only what exists in the words, or the interpretation we wish to give them. We try to subject music to forced inflections, but that is not the way to be able to judge it. On the contrary, we must not think but let ourselves be carried away by the feeling that the music inspires; without our thinking at all, this feeling will become the basis of our judgement. As for reason, everybody possesses it nowadays; we just have discovered it in the bosom of nature itself. We have even proved that instinct constantly recalls it to us, both in our actions and in our speech. When reason and instinct are reconciled, there will be no higher appeal.",
+    author: "Jean Philippe Rameau",
+    origin:
+      "Sourced from *Composers on Music: Eight Centuries of Writing*, edited by *Josiah Fisk*",
+    notes: "From Agnes's book collection.",
+  },
+  {
+    id: "111",
+    text: "How seldom do we meet with a proper amount of sympathy, knowledge, honesty, and courage in a critic — four qualities they ought, in any event, to possess to some extent. It is sad indeed for the world of music that criticism, in so many respects so useful, should often be the occupation of persons in no way endowed with these qualities.",
+    author: "Carl Philipp Emanuel Bach",
+    origin:
+      "Sourced from *Composers on Music: Eight Centuries of Writing*, edited by *Josiah Fisk*",
+    notes: "From Agnes's book collection.",
   },
 ];
 
