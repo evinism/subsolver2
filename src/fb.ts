@@ -3,12 +3,12 @@ export const shareTime = (puzzleId: string, time: string) => {
     {
       method: "share",
       href: window.location.href.replace(/#.*/, "") + `#puzzle:${puzzleId}`,
-      quote: `I got a time of ${time} on Subsolver!`,
+      quote: `I cracked puzzle #${puzzleId} in ${time} on Subsolver! Can you beat it?`,
     },
     function (response: any) {}
   );
 };
 
 export const cameFromFacebook = () => {
-  return !!((window as any).features || {}).fb;
+  return document.referrer?.indexOf("facebook") >= 0;
 };
