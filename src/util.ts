@@ -30,18 +30,21 @@ export function isTouchscreen(): boolean {
 
 export function hrTime(millis: number): string {
   const seconds = millis / 1000;
-  var levels: [number, string][] = [
+  const levels: [number, string][] = [
     [Math.floor(seconds / 31536000), "y"],
     [Math.floor((seconds % 31536000) / 86400), "d"],
     [Math.floor(((seconds % 31536000) % 86400) / 3600), "h"],
     [Math.floor((((seconds % 31536000) % 86400) % 3600) / 60), "m"],
     [(((seconds % 31536000) % 86400) % 3600) % 60, "s"],
   ];
-  var returntext = "";
+
+  let returntext = "";
 
   for (var i = 0, max = levels.length; i < max; i++) {
     if (levels[i][0] === 0) continue;
-    returntext += " " + levels[i][0] + levels[i][1];
+    const num = levels[i][0];
+    const numText = i !== levels.length - 1 ? num.toString() : num.toFixed(2);
+    returntext += " " + numText + levels[i][1];
   }
   return returntext.trim();
 }
