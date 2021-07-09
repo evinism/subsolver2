@@ -1,4 +1,10 @@
+import { recordEvent } from "./tracking";
+
 export const shareTime = (puzzleId: string, time: string) => {
+  recordEvent("ss_facebook_share_click", {
+    puzzleId,
+    solveTime: time,
+  });
   (window as any).FB.ui(
     {
       method: "share",
