@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# Subsolver 2
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the new fancy version of my original game SubSolver.
+
+This repo is hosted as-is at [subsolver.com](https://subsolver.com/).
+
+## Contributing
+
+Open a pull request! I have no formal PR requirements.
 
 ## Available Scripts
 

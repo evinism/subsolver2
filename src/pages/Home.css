@@ -11,6 +11,20 @@
   text-align: center;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+.home-page > .main-content {
+  flex-grow: 1;
+}
+
+.home-page > footer {
+  padding: 1rem;
+  color: gray;
+}
+
+.home-page .footer-links > a {
+  padding: 0.5rem;
 }
 
 .game-mode-card {
@@ -31,10 +45,6 @@
   width: 2rem;
   vertical-align: middle;
   margin-right: 0.5rem;
-  /*position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);*/
 }
 
 .home-page-subtitle {

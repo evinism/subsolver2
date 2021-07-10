@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
-import { Card, CardHeader, CardContent, Grid } from "@material-ui/core";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Grid,
+  Link as MuiLink,
+} from "@material-ui/core";
 import "./Home.css";
 
 interface GameModeLinkProps {
@@ -59,6 +65,20 @@ const Home = () => (
         </Grid>
       </Grid>
     </article>
+    <footer>
+      <div>Created by Evin Sellin</div>
+
+      <div className="footer-links">
+        <MuiLink href="https://forms.gle/TEYQHP5SdYB5jGtf8">
+          Suggest a Plaintext
+        </MuiLink>
+        <MuiLink href="https://en.wikipedia.org/wiki/Substitution_cipher">
+          Wiki
+        </MuiLink>
+        <MuiLink href="https://github.com/evinism/subsolver2">Github</MuiLink>
+        <MuiLink href="https://github.com/evinism">Author</MuiLink>
+      </div>
+    </footer>
   </div>
 );
 
