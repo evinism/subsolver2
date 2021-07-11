@@ -116,6 +116,7 @@ function Puzzle({
   };
   const restartLevel = () => {
     setMapping(initialMapping);
+    setLockedLetters(new Set());
     pushEvent("Puzzle restarted");
   };
   const unlockAllLetters = () => {
