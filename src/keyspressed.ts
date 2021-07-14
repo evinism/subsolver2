@@ -2,7 +2,7 @@ class KeysPressed {
   keysPressed: Set<string> = new Set();
   constructor() {
     document.addEventListener("keydown", (event: KeyboardEvent) => {
-      if (event.key === "Space") {
+      if (event.key === " ") {
         event.preventDefault();
       }
       this.keysPressed.add(event.key);
