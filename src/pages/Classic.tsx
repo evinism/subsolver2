@@ -123,7 +123,7 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
               <div className="success-button-group">
                 {cameFromFacebook() ? (
                   <button onClick={() => shareTime(plainText.id, solvedTime)}>
-                    Share Time on FB
+                    Challenge your friends!
                   </button>
                 ) : (
                   <button onClick={copySelfLink}>Copy Puzzle Link</button>
