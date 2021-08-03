@@ -124,8 +124,18 @@ function Puzzle({
     pushEvent("Unlocked all letters");
   };
   const randomizeMapping = () => {
-    setMapping(shuffleArray(alphabet.split("")).join(""));
-    setLockedLetters(new Set());
+    // All unlocked letters are holes.
+    const holedMapping = mapping
+      .split("")
+      .map((letter) => (lockedLetters.has(letter) ? letter : undefined));
+    const unlockedLetters = alphabet
+      .split("")
+      .filter((letter) => !lockedLetters.has(letter));
+    const shuffledLocked = shuffleArray(unlockedLetters);
+    for (let letter of shuffledLocked) {
+      holedMapping[holedMapping.indexOf(undefined)] = letter;
+    }
+    setMapping(holedMapping.join(""));
     pushEvent("Puzzle randomized");
   };
 
