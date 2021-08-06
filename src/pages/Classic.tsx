@@ -5,7 +5,7 @@ import plaintexts from "../plaintexts";
 import { choose } from "../util";
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
-import { Link } from "react-router-dom";
+import { Link, Switch, Route, useRouteMatch, Redirect } from "react-router-dom";
 import { recordEvent } from "../tracking";
 import getInputSchema from "../inputTypes";
 import { shareTime, cameFromFacebook } from "../fb";
@@ -29,17 +29,6 @@ const copySelfLink = () => {
 };
 
 const chooseNextPlaintext = () => {
-  const location = window.location;
-  if (/^#puzzle:[0-9]+$/.test(location.hash)) {
-    const hashPuzzleId = location.hash.split(":")[1];
-    const plaintext = plaintexts.find(
-      (plaintext) => plaintext.id === hashPuzzleId
-    );
-
-    if (plaintext) {
-      return plaintext;
-    }
-  }
   let solved = getAllSolved();
   if (plaintexts.length === solved.length) {
     return choose(plaintexts);
@@ -51,6 +40,8 @@ const chooseNextPlaintext = () => {
 };
 
 const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
+  let { path } = useRouteMatch();
+
   const [plainText, setPlainText] = useState(chooseNextPlaintext());
   const [events, setEvents] = useState<string[]>([
     `Started puzzle #${plainText.id}`,
@@ -71,20 +62,11 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
   };
 
   const startNewPuzzle = () => {
-    window.history.replaceState(
-      {},
-      document.title,
-      window.location.href.substr(
-        0,
-        window.location.href.length - window.location.hash.length
-      )
-    );
     setPlainText(chooseNextPlaintext());
     pushEvent(`Started puzzle #${plainText.id}`);
   };
 
-  const puzzleSelfLink =
-    window.location.href.replace(/#.*/, "") + `#puzzle:${plainText.id}`;
+  const puzzleSelfLink = window.location.href.replace(/#.*/, "");
 
   return (
     <div className="classic-page">
@@ -94,50 +76,59 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
         </Link>
         <h2>Subsolver: {headerText}</h2>
       </header>
-      <article className="main-content">
-        <header className="puzzle-header">
-          <span>Puzzle #{plainText.id}</span>
-          <span>
-            {getAllSolved().length} / {plaintexts.length} Solved
-          </span>
-        </header>
-        <Puzzle
-          plaintext={plainText}
-          key={plainText.text}
-          onComplete={() => {
-            setSolved(plainText.id);
-            forceUpdate();
-          }}
-          pushEvent={pushEvent}
-          solvedOverlay={(solvedTime: string) => (
-            <div className="success-overlay">
-              <div>
-                <h3>Puzzle Solved in {solvedTime}</h3>
-                <p>{plainText.text}</p>
-                <div className="success-author-origin">
-                  <i>—{plainText.author}</i>
-                  <br />
-                  {plainText.origin}
+      <Switch>
+        <Route path={`${path}/${plainText.id}`}>
+          <article className="main-content">
+            <header className="puzzle-header">
+              <span>Puzzle #{plainText.id}</span>
+              <span>
+                {getAllSolved().length} / {plaintexts.length} Solved
+              </span>
+            </header>
+            <Puzzle
+              plaintext={plainText}
+              key={plainText.text}
+              onComplete={() => {
+                setSolved(plainText.id);
+                forceUpdate();
+              }}
+              pushEvent={pushEvent}
+              solvedOverlay={(solvedTime: string) => (
+                <div className="success-overlay">
+                  <div>
+                    <h3>Puzzle Solved in {solvedTime}</h3>
+                    <p>{plainText.text}</p>
+                    <div className="success-author-origin">
+                      <i>—{plainText.author}</i>
+                      <br />
+                      {plainText.origin}
+                    </div>
+                  </div>
+                  <div className="success-button-group">
+                    {cameFromFacebook() ? (
+                      <button
+                        onClick={() => shareTime(plainText.id, solvedTime)}
+                      >
+                        Challenge your friends!
+                      </button>
+                    ) : (
+                      <button onClick={copySelfLink}>Copy Puzzle Link</button>
+                    )}
+                    <button onClick={startNewPuzzle}>Next Puzzle</button>
+                  </div>
                 </div>
-              </div>
-              <div className="success-button-group">
-                {cameFromFacebook() ? (
-                  <button onClick={() => shareTime(plainText.id, solvedTime)}>
-                    Challenge your friends!
-                  </button>
-                ) : (
-                  <button onClick={copySelfLink}>Copy Puzzle Link</button>
-                )}
-                <button onClick={startNewPuzzle}>Next Puzzle</button>
-              </div>
-            </div>
-          )}
-          {...gameModifiers}
-        />
-        <p>{getInputSchema().bottomHelpText}</p>
-        <input type="text" id="puzzle-self-link" value={puzzleSelfLink} />
-        <EventStream events={events} />
-      </article>
+              )}
+              {...gameModifiers}
+            />
+            <p>{getInputSchema().bottomHelpText}</p>
+            <input type="text" id="puzzle-self-link" value={puzzleSelfLink} />
+            <EventStream events={events} />
+          </article>
+        </Route>
+        <Route>
+          <Redirect to={`${path}/${plainText.id}`} />
+        </Route>
+      </Switch>
     </div>
   );
 };

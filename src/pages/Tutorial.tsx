@@ -112,7 +112,7 @@ const PageFour = () => {
   const lockedLetters: Set<string> = stateCt >= 2 ? new Set(["t"]) : new Set();
   const keyAddClass = stateCt % 2 !== 0 ? "pressed" : "";
   return (
-    <div className="tutorial-page-four">
+    <div className="tutorial-pafge-four">
       <p>{helpText}</p>
       <div className="horiz">
         <CipherTextDisplay
