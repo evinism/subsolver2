@@ -8,7 +8,7 @@ export const shareTime = (puzzleId: string, time: string) => {
   (window as any).FB.ui(
     {
       method: "share",
-      href: window.location.href.replace(/#.*/, "") + `#puzzle:${puzzleId}`,
+      href: window.location.href,
       quote: `I cracked puzzle #${puzzleId} in ${time} on Subsolver! Can you beat it?`,
     },
     function (response: any) {}

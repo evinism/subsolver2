@@ -5,7 +5,15 @@ import plaintexts, { Plaintext } from "../plaintexts";
 import { choose } from "../util";
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
-import { Link, Switch, Route, useRouteMatch, Redirect } from "react-router-dom";
+import {
+  Link,
+  Switch,
+  Route,
+  useRouteMatch,
+  Redirect,
+  useParams,
+  useHistory,
+} from "react-router-dom";
 import { recordEvent } from "../tracking";
 import getInputSchema from "../inputTypes";
 import { shareTime, cameFromFacebook } from "../fb";
@@ -99,10 +107,50 @@ const ClassicPuzzle = ({
   );
 };
 
-const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
-  let { path } = useRouteMatch();
+interface ClassicPageContentsProps {
+  gameModifiers?: GameModifiers;
+  pushEvent: (k: string) => unknown;
+  startNewPuzzle: () => void;
+  events: string[];
+  basePath: string;
+}
 
-  const [plainText, setPlainText] = useState(chooseNextPlaintext());
+const ClassicPageContents = ({
+  gameModifiers,
+  startNewPuzzle,
+  pushEvent,
+  events,
+  basePath,
+}: ClassicPageContentsProps) => {
+  let { puzzleId } = useParams() as { puzzleId: string };
+  const plainText = plaintexts.find((plain) => plain.id === puzzleId);
+  if (!plainText) {
+    return <Redirect to={basePath} />;
+  }
+  return (
+    <article className="main-content">
+      <header className="puzzle-header">
+        <span>Puzzle #{plainText.id}</span>
+        <span>
+          {getAllSolved().length} / {plaintexts.length} Solved
+        </span>
+      </header>
+      <ClassicPuzzle
+        gameModifiers={gameModifiers}
+        startNewPuzzle={startNewPuzzle}
+        plainText={plainText}
+        pushEvent={pushEvent}
+        key={plainText.id}
+      />
+      <p>{getInputSchema().bottomHelpText}</p>
+      <input type="text" id="puzzle-self-link" value={window.location.href} />
+      <EventStream events={events} />
+    </article>
+  );
+};
+
+const ClassicRouter = ({ gameModifiers, headerText }: ClassicProps) => {
+  let { path } = useRouteMatch();
   const [events, setEvents] = useState<string[]>([]);
 
   const pushEvent = (ev: string) => {
@@ -112,11 +160,8 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
     setEvents(newEvents);
   };
 
-  const startNewPuzzle = () => {
-    setPlainText(chooseNextPlaintext());
-  };
-
-  const puzzleSelfLink = window.location.href;
+  const history = useHistory();
+  const startNewPuzzle = () => history.replace(path);
 
   return (
     <div className="classic-page">
@@ -127,32 +172,21 @@ const Classic = ({ gameModifiers, headerText }: ClassicProps) => {
         <h2>Subsolver: {headerText}</h2>
       </header>
       <Switch>
-        <Route path={`${path}/${plainText.id}`}>
-          <article className="main-content">
-            <header className="puzzle-header">
-              <span>Puzzle #{plainText.id}</span>
-              <span>
-                {getAllSolved().length} / {plaintexts.length} Solved
-              </span>
-            </header>
-            <ClassicPuzzle
-              gameModifiers={gameModifiers}
-              startNewPuzzle={startNewPuzzle}
-              plainText={plainText}
-              pushEvent={pushEvent}
-              key={plainText.id}
-            />
-            <p>{getInputSchema().bottomHelpText}</p>
-            <input type="text" id="puzzle-self-link" value={puzzleSelfLink} />
-            <EventStream events={events} />
-          </article>
+        <Route path={`${path}/:puzzleId`}>
+          <ClassicPageContents
+            gameModifiers={gameModifiers}
+            startNewPuzzle={startNewPuzzle}
+            basePath={path}
+            pushEvent={pushEvent}
+            events={events}
+          />
         </Route>
         <Route>
-          <Redirect to={`${path}/${plainText.id}`} />
+          <Redirect to={`${path}/${chooseNextPlaintext().id}`} />
         </Route>
       </Switch>
     </div>
   );
 };
 
-export default Classic;
+export default ClassicRouter;
