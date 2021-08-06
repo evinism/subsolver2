@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export function shuffleArray<T>(sourceArray: T[]): T[] {
   const array = sourceArray.slice();
   for (let i = array.length - 1; i > 0; i--) {
