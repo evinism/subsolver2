@@ -16,25 +16,12 @@ import {
 } from "react-router-dom";
 import { recordEvent } from "../tracking";
 import getInputSchema from "../inputTypes";
-import { shareTime, cameFromFacebook } from "../fb";
+import { shareTime } from "../fb";
 
 interface ClassicProps {
   headerText: string;
   gameModifiers?: GameModifiers;
 }
-
-const copySelfLink = () => {
-  const copyText = document.getElementById("puzzle-self-link") as any;
-  if (!copyText) {
-    return;
-  }
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-  document.execCommand("copy");
-  const selection = window.getSelection();
-  selection && selection.removeAllRanges();
-};
 
 const chooseNextPlaintext = () => {
   let solved = getAllSolved();
@@ -91,13 +78,9 @@ const ClassicPuzzle = ({
             </div>
           </div>
           <div className="success-button-group">
-            {cameFromFacebook() ? (
-              <button onClick={() => shareTime(plainText.id, solvedTime)}>
-                Challenge your friends!
-              </button>
-            ) : (
-              <button onClick={copySelfLink}>Copy Puzzle Link</button>
-            )}
+            <button onClick={() => shareTime(plainText.id, solvedTime)}>
+              Challenge your friends!
+            </button>
             <button onClick={startNewPuzzle}>Next Puzzle</button>
           </div>
         </div>
