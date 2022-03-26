@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { choose } from "../util";
 import ShareIcon from '@mui/icons-material/Share';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
 import {
@@ -19,11 +20,16 @@ import {
 } from "react-router-dom";
 import { recordEvent } from "../tracking";
 import getInputSchema from "../inputTypes";
-import { shareTime } from "../fb";
+import { cameFromFacebook, shareTime } from "../fb";
 
 interface ClassicProps {
   headerText: string;
   gameModifiers?: GameModifiers;
+}
+
+const copyShareText = (id: string, solvedTime: string) => {
+  const str = `Subsolver #${id} solved in ${solvedTime}!\n\nAttempt this same puzzle at ${window.location.href}`;
+  navigator.clipboard.writeText(str);
 }
 
 const chooseNextPlaintext = () => {
@@ -81,14 +87,26 @@ const ClassicPuzzle = ({
             </div>
           </div>
           <div className="success-button-group">
-            <Button
-              onClick={() => shareTime(plainText.id, solvedTime)}
-              variant="contained"
-              color="success"
-              endIcon={<ShareIcon />}
-            >
-              Share
-            </Button>
+            {
+              cameFromFacebook()
+              ? <Button
+                  onClick={() => shareTime(plainText.id, solvedTime)}
+                  variant="contained"
+                  color="success"
+                  endIcon={<ShareIcon />}
+                >
+                  Share
+                </Button>
+              : <Button
+                  onClick={() => copyShareText(plainText.id, solvedTime)}
+                  variant="contained"
+                  color="success"
+                  endIcon={<ContentCopyIcon />}
+                >
+                  Share
+                </Button>
+            }
+
             <Button
               onClick={startNewPuzzle}
               variant="contained"
