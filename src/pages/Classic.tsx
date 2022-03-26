@@ -2,6 +2,7 @@ import { useEffect, useReducer, useState } from "react";
 import Puzzle, { GameModifiers } from "../puzzle/Puzzle";
 import EventStream from "../EventStream";
 import plaintexts, { Plaintext } from "../plaintexts";
+import { Button } from "@material-ui/core";
 import { choose } from "../util";
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
@@ -78,10 +79,13 @@ const ClassicPuzzle = ({
             </div>
           </div>
           <div className="success-button-group">
-            <button onClick={() => shareTime(plainText.id, solvedTime)}>
-              Challenge your friends!
-            </button>
-            <button onClick={startNewPuzzle}>Next Puzzle</button>
+            <Button
+              onClick={() => shareTime(plainText.id, solvedTime)}
+              variant="contained"
+            >
+              Share
+            </Button>
+            <Button onClick={startNewPuzzle} variant="contained">Next Puzzle</Button>
           </div>
         </div>
       )}
