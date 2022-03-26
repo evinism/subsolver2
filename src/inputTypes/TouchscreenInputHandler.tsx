@@ -1,5 +1,5 @@
 import "./TouchscreenInputHandler.css";
-import { Portal } from "@material-ui/core";
+import { Portal } from "@mui/material";
 import useEventListener from "@use-it/event-listener";
 import { ReactNode, useState } from "react";
 import { UserInputHandlerProps } from "./sharedTypes";

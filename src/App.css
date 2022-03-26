@@ -1,7 +1,6 @@
 .App {
   min-height: 100vh;
   min-width: 100vw;
-  background-color: #333;
   color: white;
   /* To disable margin stack */
   padding: 1px 0.5rem;

@@ -6,7 +6,6 @@ import { alphabet } from "../constants";
 import { hrTime, shuffleArray } from "../util";
 import { Plaintext } from "../plaintexts";
 import { applyMapping } from "./mapping";
-import { Card } from "@material-ui/core";
 import KeyboardPuzzleLock from "./KeyboardPuzzleLock";
 import { getAllSolved } from "../solvedStore";
 import { recordEvent } from "../tracking";
@@ -141,7 +140,7 @@ function Puzzle({
 
   return (
     <div className={"puzzle " + puzzleState}>
-      <Card className="puzzle-overlayable">
+      <div className="puzzle-overlayable">
         <div className={puzzleState === "complete" ? "blurred" : ""}>
           <CipherTextDisplay
             text={applyMapping(text, mapping, {
@@ -176,7 +175,7 @@ function Puzzle({
             }}
           />
         )}
-      </Card>
+      </div>
       <InputHandler
         swap={suppressIfInactive(handleSwap)}
         setLock={suppressIfInactive(handleLocked)}

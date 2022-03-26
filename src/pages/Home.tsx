@@ -5,7 +5,7 @@ import {
   CardContent,
   Grid,
   Link as MuiLink,
-} from "@material-ui/core";
+} from "@mui/material";
 import "./Home.css";
 
 interface GameModeLinkProps {

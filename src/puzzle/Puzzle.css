@@ -1,5 +1,4 @@
 .cipher-text-display {
-  background-color: #444;
   padding: 1rem;
   word-break: break-word;
   text-align: justify;
@@ -7,7 +6,6 @@
   letter-spacing: 0.1rem;
   font-family: monospace;
   padding-bottom: 1.5rem;
-  color: white;
 }
 
 .cipher-text-display .pressed {
@@ -15,7 +13,7 @@
 }
 
 .cipher-text-display .locked {
-  background-color: #111;
+  background-color: #000;
   color: #aaa;
 }
 
@@ -137,7 +135,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #444;
+  background-color: #222;
   font-size: 1.2rem;
 }
 

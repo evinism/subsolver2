@@ -1,6 +1,5 @@
 .touchscreen-input-handler-wrapper {
   height: 50vw;
-  background-color: #333;
 }
 
 .touchscreen-input-handler {
@@ -10,7 +9,7 @@
   text-align: center;
   color: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  background-color: #444;
+  background-color: #252525;
   padding: 0.2rem 0;
 }
 

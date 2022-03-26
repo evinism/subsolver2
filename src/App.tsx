@@ -3,14 +3,15 @@ import Classic from "./pages/Classic";
 import Home from "./pages/Home";
 import Tutorial from "./pages/Tutorial";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material";
+import { createTheme } from '@mui/material/styles'
 import Helmet from "react-helmet";
 import TouchscreenInputHandler from "./inputTypes/TouchscreenInputHandler";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
-    type: "dark",
+    mode: "dark",
   },
 });
 
@@ -56,8 +57,8 @@ function App() {
             </Route>
           </Switch>
         </Router>
+        <CssBaseline enableColorScheme />
       </ThemeProvider>
-      <CssBaseline />
     </div>
   );
 }

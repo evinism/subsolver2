@@ -2,8 +2,10 @@ import { useEffect, useReducer, useState } from "react";
 import Puzzle, { GameModifiers } from "../puzzle/Puzzle";
 import EventStream from "../EventStream";
 import plaintexts, { Plaintext } from "../plaintexts";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { choose } from "../util";
+import ShareIcon from '@mui/icons-material/Share';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
 import {
@@ -82,10 +84,19 @@ const ClassicPuzzle = ({
             <Button
               onClick={() => shareTime(plainText.id, solvedTime)}
               variant="contained"
+              color="success"
+              endIcon={<ShareIcon />}
             >
               Share
             </Button>
-            <Button onClick={startNewPuzzle} variant="contained">Next Puzzle</Button>
+            <Button
+              onClick={startNewPuzzle}
+              variant="contained"
+              color="success"
+              endIcon={<ArrowRightIcon />}
+            >
+              Next Puzzle
+            </Button>
           </div>
         </div>
       )}
