@@ -29,6 +29,9 @@ interface ClassicProps {
 
 const copyShareText = (id: string, solvedTime: string) => {
   const str = `Subsolver #${id} solved in ${solvedTime}!\n\nAttempt this same puzzle at ${window.location.href}`;
+  recordEvent("ss_copy_share", {
+    puzzleId: id
+  });
   navigator.clipboard.writeText(str);
 }
 
