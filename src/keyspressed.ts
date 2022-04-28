@@ -2,13 +2,13 @@ class KeysPressed {
   keysPressed: Set<string> = new Set();
   constructor() {
     document.addEventListener("keydown", (event: KeyboardEvent) => {
-      if (event.code === "Space") {
+      if (event.key === " ") {
         event.preventDefault();
       }
-      this.keysPressed.add(event.code);
+      this.keysPressed.add(event.key);
     });
     document.addEventListener("keyup", (event: KeyboardEvent) => {
-      this.keysPressed.delete(event.code);
+      this.keysPressed.delete(event.key);
     });
   }
   getKeysPressed(): Set<string> {
