@@ -17,6 +17,11 @@
   color: #aaa;
 }
 
+/* Make the puzzle overlay big enough to have space for minimal success overlay */
+.puzzle .cipher-text-display {
+  min-height: 12rem;
+}
+
 .puzzle-letter {
   animation: letter_change ease-out 1s;
 }

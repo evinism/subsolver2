@@ -86,8 +86,10 @@ const ClassicPuzzle = ({
             <h3>Puzzle Solved in {solvedTime}</h3>
             <p>{plainText.text}</p>
             <div className="success-author-origin">
-              <i>—{plainText.author}</i>
-              <br />
+              {!!plainText.author && <>
+                  <i>—{plainText.author}</i>
+                  <br />
+              </>}
               {plainText.origin}
             </div>
           </div>
