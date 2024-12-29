@@ -142,9 +142,14 @@ const ClassicPageContents = ({
   basePath,
 }: ClassicPageContentsProps) => {
   let { puzzleId } = useParams() as { puzzleId: string };
-  const plainText = plaintexts.find((plain) => plain.id === puzzleId);
+  let plainText = plaintexts.find((plain) => plain.id === puzzleId);
   if (!plainText) {
-    return <Redirect to={basePath} />;
+    try {
+      plainText = JSON.parse(atob(puzzleId)) as Plaintext;
+    } catch (e) {
+      console.error("Failed to parse custom puzzle from URL:", e);
+      return <Redirect to={basePath} />;
+    }
   }
   return (
     <article className="main-content">
