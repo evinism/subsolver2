@@ -149,7 +149,7 @@ const ClassicPageContents = ({
   let plainText = plaintexts.find((plain) => plain.id === puzzleId);
   if (!plainText) {
     try {
-      plainText = JSON.parse(atob(puzzleId)) as Plaintext;
+      plainText = JSON.parse(atob(decodeURIComponent(puzzleId))) as Plaintext;
     } catch (e) {
       console.error("Failed to parse custom puzzle from URL:", e);
       return <Redirect to={basePath} />;
