@@ -10,7 +10,6 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
 import {
-  Link,
   Switch,
   Route,
   useRouteMatch,
@@ -21,6 +20,7 @@ import {
 import { recordEvent } from "../tracking";
 import getInputSchema from "../inputTypes";
 import { cameFromFacebook, shareTime } from "../fb";
+import PageHeader from "../layout/PageHeader";
 
 interface ClassicProps {
   headerText: string;
@@ -184,12 +184,7 @@ const ClassicRouter = ({ gameModifiers, headerText }: ClassicProps) => {
 
   return (
     <div className="classic-page">
-      <header>
-        <Link to="/" className="back-button">
-          ⟨ Back
-        </Link>
-        <h2>Subsolver: {headerText}</h2>
-      </header>
+      <PageHeader headerText={headerText} />
       <Switch>
         <Route path={`${path}/:puzzleId`}>
           <ClassicPageContents
