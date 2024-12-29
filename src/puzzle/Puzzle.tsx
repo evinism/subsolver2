@@ -64,16 +64,16 @@ function Puzzle({
     } else if (lockedLetters.has(b)) {
       pushFailedSwap(b);
     } else {
-      recordEvent("ss_swap", { a, b, puzzleId: id });
+      recordEvent("ss_swap", { a, b, puzzleId: id || "custom" });
       const newMapping = swapLetters(mapping, a, b);
       setMapping(newMapping);
       pushEvent(`"${a.toUpperCase()}" and "${b.toUpperCase()}" swapped.`);
       if (applyMapping(text, newMapping) === applyMapping(text, alphabet)) {
-        pushEvent(`Puzzle #${id} solved`);
+        pushEvent(id ? `Puzzle #${id} solved` : "Custom puzzle solved");
         const allSolved = getAllSolved();
         const puzzleEndTime = new Date();
         recordEvent("ss_solve", {
-          puzzleId: id,
+          puzzleId: id || "custom",
           startTime: puzzleStartTime!.toJSON(),
           endTime: puzzleEndTime.toJSON(),
           solvedTime: getSolvedTime(),
@@ -102,7 +102,7 @@ function Puzzle({
     recordEvent("ss_toggle_letter_locked", {
       letter,
       locked: locked.toString(),
-      puzzleId: id,
+      puzzleId: id || "custom",
     });
     const newSet = new Set(lockedLetters);
     if (locked) {

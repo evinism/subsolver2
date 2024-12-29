@@ -28,9 +28,9 @@ interface ClassicProps {
 }
 
 const copyShareText = (id: string, solvedTime: string) => {
-  const str = `Subsolver #${id} solved in ${solvedTime}!\n\nAttempt this same puzzle at ${window.location.href}`;
+  const str = `${id ? `Subsolver #${id}` : "Custom Subsolver"} solved in ${solvedTime}!\n\nAttempt this same puzzle at ${window.location.href}`;
   recordEvent("ss_copy_share", {
-    puzzleId: id
+    puzzleId: id || "custom"
   });
   navigator.clipboard.writeText(str);
 }
@@ -64,9 +64,9 @@ const ClassicPuzzle = ({
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     recordEvent("ss_puzzle_start", {
-      puzzleId: plainText.id,
+      puzzleId: plainText.id || "custom",
     });
-    pushEvent(`Started puzzle #${plainText.id}`);
+    pushEvent(plainText.id ? `Started puzzle #${plainText.id}` : "Started custom puzzle");
   }, []);
 
   return (
@@ -74,7 +74,9 @@ const ClassicPuzzle = ({
       plaintext={plainText}
       key={plainText.text}
       onComplete={() => {
-        setSolved(plainText.id);
+        if (plainText.id) {
+          setSolved(plainText.id);
+        }
         forceUpdate();
       }}
       pushEvent={pushEvent}
@@ -154,7 +156,7 @@ const ClassicPageContents = ({
   return (
     <article className="main-content">
       <header className="puzzle-header">
-        <span>Puzzle #{plainText.id}</span>
+        <span>{plainText.id ? `Puzzle #${plainText.id}` : "Custom puzzle"}</span>
         <span>
           {getAllSolved().length} / {plaintexts.length} Solved
         </span>
@@ -164,7 +166,7 @@ const ClassicPageContents = ({
         startNewPuzzle={startNewPuzzle}
         plainText={plainText}
         pushEvent={pushEvent}
-        key={plainText.id}
+        key={puzzleId}
       />
       <p>{getInputSchema().bottomHelpText}</p>
       <input type="text" id="puzzle-self-link" value={window.location.href} />
