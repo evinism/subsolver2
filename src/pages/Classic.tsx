@@ -3,7 +3,7 @@ import Puzzle, { GameModifiers } from "../puzzle/Puzzle";
 import EventStream from "../EventStream";
 import plaintexts, { Plaintext } from "../plaintexts";
 import { Button } from "@mui/material";
-import { choose } from "../util";
+import { choose, decodeBase64 } from "../util";
 import ShareIcon from '@mui/icons-material/Share';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -151,7 +151,7 @@ const ClassicPageContents = ({
   const plainText = useMemo(() => {
     if (puzzleId === "custom") {
       try {
-        return JSON.parse(atob(decodeURIComponent(hash.substring(1)))) as Plaintext;
+        return JSON.parse(decodeBase64(decodeURIComponent(hash.substring(1)))) as Plaintext;
       } catch (e) {
         console.error("Failed to parse custom puzzle from URL:", e);
         window.alert("Failed to parse custom puzzle");

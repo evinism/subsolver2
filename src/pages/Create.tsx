@@ -5,6 +5,7 @@ import PageHeader from "../layout/PageHeader";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { generatePath } from "react-router-dom";
 import { Plaintext } from "../plaintexts";
+import { encodeBase64 } from "../util";
 
 const minLength = 20;
 
@@ -22,7 +23,7 @@ const Create = () => {
       author,
       origin,
     };
-    const encodedPlaintext = btoa(JSON.stringify(plaintext));
+    const encodedPlaintext = encodeBase64(JSON.stringify(plaintext));
     const link = window.location.origin + generatePath("/casual/custom#:data", {data: encodedPlaintext});
 
     navigator.clipboard.writeText(link);
