@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import Puzzle, { GameModifiers } from "../puzzle/Puzzle";
 import EventStream from "../EventStream";
 import plaintexts, { Plaintext } from "../plaintexts";
@@ -16,6 +16,7 @@ import {
   Redirect,
   useParams,
   useHistory,
+  useLocation,
 } from "react-router-dom";
 import { recordEvent } from "../tracking";
 import getInputSchema from "../inputTypes";
@@ -146,14 +147,22 @@ const ClassicPageContents = ({
   basePath,
 }: ClassicPageContentsProps) => {
   let { puzzleId } = useParams() as { puzzleId: string };
-  let plainText = plaintexts.find((plain) => plain.id === puzzleId);
-  if (!plainText) {
-    try {
-      plainText = JSON.parse(atob(decodeURIComponent(puzzleId))) as Plaintext;
-    } catch (e) {
-      console.error("Failed to parse custom puzzle from URL:", e);
-      return <Redirect to={basePath} />;
+  const { hash } = useLocation();
+  const plainText = useMemo(() => {
+    if (puzzleId === "custom") {
+      try {
+        return JSON.parse(atob(decodeURIComponent(hash.substring(1)))) as Plaintext;
+      } catch (e) {
+        console.error("Failed to parse custom puzzle from URL:", e);
+        window.alert("Failed to parse custom puzzle");
+        return undefined;
+      }
     }
+
+    return plaintexts.find((plain) => plain.id === puzzleId);
+  }, [puzzleId, hash]);
+  if (!plainText) {
+    return <Redirect to={basePath} />;
   }
   return (
     <article className="main-content">

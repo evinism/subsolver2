@@ -23,7 +23,7 @@ const Create = () => {
       origin,
     };
     const encodedPlaintext = btoa(JSON.stringify(plaintext));
-    const link = window.location.origin + generatePath("/classic/:data", {data: encodedPlaintext});
+    const link = window.location.origin + generatePath("/casual/custom#:data", {data: encodedPlaintext});
 
     navigator.clipboard.writeText(link);
   };
