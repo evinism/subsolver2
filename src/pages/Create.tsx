@@ -1,6 +1,6 @@
 import "./Create.css";
 import { useState, KeyboardEvent } from "react";
-import { Alert, Button, Grid, TextField } from "@mui/material";
+import {Alert, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import PageHeader from "../layout/PageHeader";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { generatePath } from "react-router-dom";
@@ -13,6 +13,7 @@ const Create = () => {
   const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
   const [origin, setOrigin] = useState("");
+  const [mode, setMode] = useState("casual");
 
   const isTooShort = text.trim().length < minLength;
 
@@ -24,7 +25,7 @@ const Create = () => {
       origin,
     };
     const encodedPlaintext = encodeBase64(JSON.stringify(plaintext));
-    const link = window.location.origin + generatePath("/casual/custom#:data", {data: encodedPlaintext});
+    const link = window.location.origin + generatePath("/:mode/custom#:data", {mode, data: encodedPlaintext});
 
     navigator.clipboard.writeText(link);
   };
@@ -62,7 +63,23 @@ const Create = () => {
             </Alert>}
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={6} sm={3}>
+            <FormControl fullWidth={true}>
+              <InputLabel id={"mode-label"}>Mode</InputLabel>
+              <Select
+                label={"Mode"}
+                labelId={"mode-label"}
+                value={mode}
+                onChange={(event) => setMode(event.target.value)}
+              >
+                <MenuItem value={"classic"}>Classic</MenuItem>
+                <MenuItem value={"casual"}>Casual</MenuItem>
+                <MenuItem value={"hard"}>Hardcore</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6} sm={3}>
             <TextField
               value={author}
               onChange={(event) => setAuthor(event.target.value)}
@@ -71,7 +88,7 @@ const Create = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={8}>
+          <Grid item xs={12} sm={6}>
             <TextField
               value={origin}
               onChange={(event) => setOrigin(event.target.value)}
