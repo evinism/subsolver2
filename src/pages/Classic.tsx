@@ -6,7 +6,6 @@ import { Button } from "@mui/material";
 import { choose, decodeBase64 } from "../util";
 import ShareIcon from '@mui/icons-material/Share';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
 import {
@@ -22,6 +21,7 @@ import { recordEvent } from "../tracking";
 import getInputSchema from "../inputTypes";
 import { cameFromFacebook, shareTime } from "../fb";
 import PageHeader from "../layout/PageHeader";
+import { CopyTextButton } from "../CopyTextButton";
 
 interface ClassicProps {
   headerText: string;
@@ -105,14 +105,13 @@ const ClassicPuzzle = ({
                 >
                   Share
                 </Button>
-              : <Button
+              : <CopyTextButton
                   onClick={() => copyShareText(plainText.id, solvedTime)}
                   variant="contained"
                   color="success"
-                  endIcon={<ContentCopyIcon />}
                 >
                   Share
-                </Button>
+                </CopyTextButton>
             }
 
             <Button

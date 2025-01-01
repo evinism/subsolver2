@@ -1,11 +1,11 @@
 import "./Create.css";
 import { useState, KeyboardEvent } from "react";
-import {Alert, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Alert, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import PageHeader from "../layout/PageHeader";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { generatePath } from "react-router-dom";
 import { Plaintext } from "../plaintexts";
 import { encodeBase64 } from "../util";
+import { CopyTextButton } from "../CopyTextButton";
 
 const minLength = 20;
 
@@ -98,16 +98,15 @@ const Create = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Button
+            <CopyTextButton
               onClick={copyLink}
               disabled={isTooShort}
               size="large"
               variant="contained"
               color="primary"
-              endIcon={<ContentCopyIcon/>}
             >
               Share the link
-            </Button>
+            </CopyTextButton>
           </Grid>
         </Grid>
       </article>
