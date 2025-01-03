@@ -48,3 +48,17 @@ export function hrTime(millis: number): string {
   }
   return returntext.trim();
 }
+
+// Encode string to base64, supporting UTF characters
+export function encodeBase64(value: string) {
+  const binArray = Array.from(new TextEncoder().encode(value));
+  const binString = String.fromCodePoint(...binArray);
+  return btoa(binString);
+}
+
+// Decode string from base64, supporting UTF characters
+export function decodeBase64(base64: string) {
+  const binString = atob(base64);
+  const binArray = Uint8Array.from(binString, (m) => m.codePointAt(0)!);
+  return new TextDecoder().decode(binArray);
+}

@@ -36,6 +36,7 @@
   position: absolute;
   padding: 0 2rem;
   font-size: 1.1rem;
+  width: 100%;
   height: 100%;
   box-shadow: 0px 0px 6px -2px lime inset;
 }
@@ -60,20 +61,6 @@
   text-align: left;
   padding: 0.25rem;
   color: lightgray;
-}
-
-.classic-page header {
-  text-align: center;
-}
-
-.classic-page .back-button {
-  position: absolute;
-  left: 0;
-  padding: 0rem 1.5rem;
-  line-height: 36px;
-  font-size: 1rem;
-  color: white;
-  text-decoration: none;
 }
 
 .success-button-group {

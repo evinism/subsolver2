@@ -56,11 +56,18 @@ const Home = () => (
             description="Spaces have been removed!"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <GameModeLink
             to="/tutorial"
             title="Tutorial"
             description="Learn the basics of how to play this game!"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <GameModeLink
+            to="/create"
+            title="Create"
+            description="Build your own puzzle and share it with your friends!"
           />
         </Grid>
       </Grid>

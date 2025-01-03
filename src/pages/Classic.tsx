@@ -1,26 +1,27 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import Puzzle, { GameModifiers } from "../puzzle/Puzzle";
 import EventStream from "../EventStream";
 import plaintexts, { Plaintext } from "../plaintexts";
 import { Button } from "@mui/material";
-import { choose } from "../util";
+import { choose, decodeBase64 } from "../util";
 import ShareIcon from '@mui/icons-material/Share';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import "./Classic.css";
 import { getAllSolved, setSolved } from "../solvedStore";
 import {
-  Link,
   Switch,
   Route,
   useRouteMatch,
   Redirect,
   useParams,
   useHistory,
+  useLocation,
 } from "react-router-dom";
 import { recordEvent } from "../tracking";
 import getInputSchema from "../inputTypes";
 import { cameFromFacebook, shareTime } from "../fb";
+import PageHeader from "../layout/PageHeader";
+import { CopyTextButton } from "../CopyTextButton";
 
 interface ClassicProps {
   headerText: string;
@@ -28,9 +29,9 @@ interface ClassicProps {
 }
 
 const copyShareText = (id: string, solvedTime: string) => {
-  const str = `Subsolver #${id} solved in ${solvedTime}!\n\nAttempt this same puzzle at ${window.location.href}`;
+  const str = `${id ? `Subsolver #${id}` : "Custom Subsolver"} solved in ${solvedTime}!\n\nAttempt this same puzzle at ${window.location.href}`;
   recordEvent("ss_copy_share", {
-    puzzleId: id
+    puzzleId: id || "custom"
   });
   navigator.clipboard.writeText(str);
 }
@@ -64,9 +65,9 @@ const ClassicPuzzle = ({
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     recordEvent("ss_puzzle_start", {
-      puzzleId: plainText.id,
+      puzzleId: plainText.id || "custom",
     });
-    pushEvent(`Started puzzle #${plainText.id}`);
+    pushEvent(plainText.id ? `Started puzzle #${plainText.id}` : "Started custom puzzle");
   }, []);
 
   return (
@@ -74,7 +75,9 @@ const ClassicPuzzle = ({
       plaintext={plainText}
       key={plainText.text}
       onComplete={() => {
-        setSolved(plainText.id);
+        if (plainText.id) {
+          setSolved(plainText.id);
+        }
         forceUpdate();
       }}
       pushEvent={pushEvent}
@@ -84,8 +87,10 @@ const ClassicPuzzle = ({
             <h3>Puzzle Solved in {solvedTime}</h3>
             <p>{plainText.text}</p>
             <div className="success-author-origin">
-              <i>—{plainText.author}</i>
-              <br />
+              {!!plainText.author && <>
+                  <i>—{plainText.author}</i>
+                  <br />
+              </>}
               {plainText.origin}
             </div>
           </div>
@@ -100,14 +105,13 @@ const ClassicPuzzle = ({
                 >
                   Share
                 </Button>
-              : <Button
+              : <CopyTextButton
                   onClick={() => copyShareText(plainText.id, solvedTime)}
                   variant="contained"
                   color="success"
-                  endIcon={<ContentCopyIcon />}
                 >
                   Share
-                </Button>
+                </CopyTextButton>
             }
 
             <Button
@@ -142,14 +146,27 @@ const ClassicPageContents = ({
   basePath,
 }: ClassicPageContentsProps) => {
   let { puzzleId } = useParams() as { puzzleId: string };
-  const plainText = plaintexts.find((plain) => plain.id === puzzleId);
+  const { hash } = useLocation();
+  const plainText = useMemo(() => {
+    if (puzzleId === "custom") {
+      try {
+        return JSON.parse(decodeBase64(decodeURIComponent(hash.substring(1)))) as Plaintext;
+      } catch (e) {
+        console.error("Failed to parse custom puzzle from URL:", e);
+        window.alert("Failed to parse custom puzzle");
+        return undefined;
+      }
+    }
+
+    return plaintexts.find((plain) => plain.id === puzzleId);
+  }, [puzzleId, hash]);
   if (!plainText) {
     return <Redirect to={basePath} />;
   }
   return (
     <article className="main-content">
       <header className="puzzle-header">
-        <span>Puzzle #{plainText.id}</span>
+        <span>{plainText.id ? `Puzzle #${plainText.id}` : "Custom puzzle"}</span>
         <span>
           {getAllSolved().length} / {plaintexts.length} Solved
         </span>
@@ -159,7 +176,7 @@ const ClassicPageContents = ({
         startNewPuzzle={startNewPuzzle}
         plainText={plainText}
         pushEvent={pushEvent}
-        key={plainText.id}
+        key={puzzleId}
       />
       <p>{getInputSchema().bottomHelpText}</p>
       <input type="text" id="puzzle-self-link" value={window.location.href} />
@@ -184,12 +201,7 @@ const ClassicRouter = ({ gameModifiers, headerText }: ClassicProps) => {
 
   return (
     <div className="classic-page">
-      <header>
-        <Link to="/" className="back-button">
-          ⟨ Back
-        </Link>
-        <h2>Subsolver: {headerText}</h2>
-      </header>
+      <PageHeader headerText={headerText} />
       <Switch>
         <Route path={`${path}/:puzzleId`}>
           <ClassicPageContents

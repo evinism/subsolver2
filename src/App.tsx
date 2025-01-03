@@ -2,6 +2,7 @@ import "./App.css";
 import Classic from "./pages/Classic";
 import Home from "./pages/Home";
 import Tutorial from "./pages/Tutorial";
+import Create from "./pages/Create";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material";
@@ -48,6 +49,10 @@ function App() {
             <Route path="/tutorial">
               <Title title="Subsolver - Tutorial" />
               <Tutorial />
+            </Route>
+            <Route path="/create">
+              <Title title="Subsolver - Create new puzzle" />
+              <Create />
             </Route>
             <Route path="/test">
               <TouchscreenInputHandler />
