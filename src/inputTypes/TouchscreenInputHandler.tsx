@@ -58,9 +58,9 @@ const TouchscreenInputHandler = ({
     if (!swapState || !swapState.b) {
       return;
     }
-    if (swapState.a === "space") {
+    if (swapState.a === " ") {
       setLock(swapState.b, !lockedLetters.has(swapState.b));
-    } else if (swapState.b === "space") {
+    } else if (swapState.b === " ") {
       setLock(swapState.a, !lockedLetters.has(swapState.a));
     } else {
       swap(swapState.a, swapState.b);
@@ -83,9 +83,9 @@ const TouchscreenInputHandler = ({
   let swapStateRep: ReactNode | undefined = undefined;
 
   if (swapState) {
-    if (swapState.a === "space") {
+    if (swapState.a === " ") {
       swapStateRep = <span>Toggling lock of {swapState.b || "_"}</span>;
-    } else if (swapState.b === "space") {
+    } else if (swapState.b === " ") {
       swapStateRep = <span>Toggling lock of {swapState.a || "_"}</span>;
     } else {
       swapStateRep = (
@@ -120,8 +120,8 @@ const TouchscreenInputHandler = ({
             ))}
             <div className="row">
               <span
-                className={"key key-big " + (pressed.has("space") && "pressed")}
-                data-faux-keyboard-key="space"
+                className={"key key-big " + (pressed.has(" ") && "pressed")}
+                data-faux-keyboard-key=" "
               >
                 Lock/Unlock
               </span>
