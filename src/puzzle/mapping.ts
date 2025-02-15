@@ -1,4 +1,5 @@
 import { alphabet, frequencyOrder } from "../constants";
+import { shuffleArray } from "../util";
 
 interface MappingOptions {
   hideSpaces?: boolean;
@@ -69,7 +70,13 @@ const _getLetterCounts = (normalizedText: string) => {
   return counts;
 };
 
-export const findInitialMapping = (text: string) => {
+export const findInitialMapping = (text: string, isCustomPuzzle: boolean) => {
+  // Custom puzzles get a fully randomized initial mapping
+  if (isCustomPuzzle) {
+    return shuffleArray(alphabet.split("")).join("");
+  }
+
+  // Built-in puzzles get consistent initial mapping based on letters' frequency
   const normalized = _normalizeText(text, { hideSpaces: true });
   const letterCounts = Object.entries(_getLetterCounts(normalized));
   letterCounts.sort((a, b) => b[1] - a[1]);
