@@ -71,10 +71,19 @@ const _getLetterCounts = (normalizedText: string) => {
 
 export const findInitialMapping = (text: string) => {
   const normalized = _normalizeText(text, { hideSpaces: true });
-  const letterCounts = Object.entries(_getLetterCounts(normalized));
+  const letterCountsObj = _getLetterCounts(normalized);
+  const frequencyOrderArr = frequencyOrder.split("");
+
+  const initialReplacementOrder =
+    frequencyOrderArr.filter((letter) => letterCountsObj[letter] > 0).join("") +
+    frequencyOrderArr
+      .filter((letter) => letterCountsObj[letter] === 0)
+      .join("");
+
+  const letterCounts = Object.entries(letterCountsObj);
   letterCounts.sort((a, b) => b[1] - a[1]);
   const mappingEntries = letterCounts.map(([letter], index) => [
-    frequencyOrder[index],
+    initialReplacementOrder[index],
     letter,
   ]);
   mappingEntries.sort(([a], [b]) => a.localeCompare(b));
