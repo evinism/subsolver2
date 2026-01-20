@@ -42,8 +42,9 @@ function Puzzle({
 }: PuzzleProps) {
   const { inputHandler: InputHandler } = getInputSchema();
 
+  const isCustomPuzzle = !id;
   const shouldStartLocked = startLocked();
-  const initialMapping = useMemo(() => findInitialMapping(text), [text]);
+  const initialMapping = useMemo(() => findInitialMapping(text, isCustomPuzzle), [text, isCustomPuzzle]);
   const [mapping, setMapping] = useState<string>(initialMapping);
   const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
   const [puzzleState, setPuzzleState] = useState<PuzzleState>(
@@ -69,7 +70,7 @@ function Puzzle({
       setMapping(newMapping);
       pushEvent(`"${a.toUpperCase()}" and "${b.toUpperCase()}" swapped.`);
       if (applyMapping(text, newMapping) === applyMapping(text, alphabet)) {
-        pushEvent(id ? `Puzzle #${id} solved` : "Custom puzzle solved");
+        pushEvent(isCustomPuzzle ? "Custom puzzle solved" : `Puzzle #${id} solved`);
         const allSolved = getAllSolved();
         const puzzleEndTime = new Date();
         recordEvent("ss_solve", {
