@@ -15,6 +15,7 @@ export interface GameModifiers {
   hideSpaces?: boolean;
   showPunctuation?: boolean;
   keepCapitals?: boolean;
+  presolveLetters?: string;
 }
 
 type PuzzleState = "locked" | "active" | "complete";
@@ -39,20 +40,26 @@ function Puzzle({
   hideSpaces,
   showPunctuation,
   keepCapitals,
+  presolveLetters = "",
 }: PuzzleProps) {
   const { inputHandler: InputHandler } = getInputSchema();
 
   const shouldStartLocked = startLocked();
-  const initialMapping = useMemo(() => findInitialMapping(text), [text]);
+  const initialMapping = useMemo(
+    () => findInitialMapping(text, presolveLetters),
+    [text, presolveLetters],
+  );
   const [mapping, setMapping] = useState<string>(initialMapping);
-  const [lockedLetters, setLockedLetters] = useState<Set<string>>(new Set());
+  const [lockedLetters, setLockedLetters] = useState<Set<string>>(
+    new Set(presolveLetters.split("")),
+  );
   const [puzzleState, setPuzzleState] = useState<PuzzleState>(
-    startLocked() ? "locked" : "active"
+    startLocked() ? "locked" : "active",
   );
 
   // Puzzle start and end times
   const [puzzleStartTime, setPuzzleStartTime] = useState<Date | void>(
-    shouldStartLocked ? undefined : new Date()
+    shouldStartLocked ? undefined : new Date(),
   );
   const [puzzleEndTime, setPuzzleEndTime] = useState<Date | void>();
 
@@ -68,6 +75,9 @@ function Puzzle({
       const newMapping = swapLetters(mapping, a, b);
       setMapping(newMapping);
       pushEvent(`"${a.toUpperCase()}" and "${b.toUpperCase()}" swapped.`);
+      console.log(applyMapping(text, newMapping));
+      console.log(applyMapping(text, alphabet));
+
       if (applyMapping(text, newMapping) === applyMapping(text, alphabet)) {
         pushEvent(id ? `Puzzle #${id} solved` : "Custom puzzle solved");
         const allSolved = getAllSolved();

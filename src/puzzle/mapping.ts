@@ -69,23 +69,29 @@ const _getLetterCounts = (normalizedText: string) => {
   return counts;
 };
 
-export const findInitialMapping = (text: string) => {
+export const findInitialMapping = (
+  text: string,
+  presolveLetters: string = "",
+) => {
   const normalized = _normalizeText(text, { hideSpaces: true });
+  const presolveSet = new Set(presolveLetters.split(""));
   const letterCountsObj = _getLetterCounts(normalized);
-  const frequencyOrderArr = frequencyOrder.split("");
-
+  const frequencyOrderArr = frequencyOrder
+    .split("")
+    .filter((letter) => !presolveSet.has(letter));
   const initialReplacementOrder =
     frequencyOrderArr.filter((letter) => letterCountsObj[letter] > 0).join("") +
     frequencyOrderArr
       .filter((letter) => letterCountsObj[letter] === 0)
       .join("");
 
-  const letterCounts = Object.entries(letterCountsObj);
+  const letterCounts = Object.entries(letterCountsObj).filter(
+    ([letter]) => !presolveSet.has(letter),
+  );
   letterCounts.sort((a, b) => b[1] - a[1]);
-  const mappingEntries = letterCounts.map(([letter], index) => [
-    initialReplacementOrder[index],
-    letter,
-  ]);
+  const mappingEntries = letterCounts
+    .map(([letter], index) => [initialReplacementOrder[index], letter])
+    .concat(presolveLetters.split("").map((letter) => [letter, letter]));
   mappingEntries.sort(([a], [b]) => a.localeCompare(b));
   const finalMapping = mappingEntries.map(([_, letter]) => letter).join("");
   return finalMapping;
