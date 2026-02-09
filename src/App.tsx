@@ -46,6 +46,17 @@ function App() {
                 gameModifiers={{ showPunctuation: true, keepCapitals: true }}
               />
             </Route>
+            <Route path="/langer">
+              <Title title="Subsolver - Langer" />
+              <Classic
+                headerText="Langer"
+                gameModifiers={{
+                  showPunctuation: true,
+                  keepCapitals: true,
+                  presolveLetters: "aeiou",
+                }}
+              />
+            </Route>
             <Route path="/tutorial">
               <Title title="Subsolver - Tutorial" />
               <Tutorial />
