@@ -62,12 +62,14 @@ const ClassicPuzzle = ({
 }: ClassicPuzzleProps) => {
   const forceUpdate = useReducer((x) => x + 1, 0)[1];
 
+  const isCustomPuzzle = !plainText.id;
+
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     recordEvent("ss_puzzle_start", {
       puzzleId: plainText.id || "custom",
     });
-    pushEvent(plainText.id ? `Started puzzle #${plainText.id}` : "Started custom puzzle");
+    pushEvent(isCustomPuzzle ? "Started custom puzzle" : `Started puzzle #${plainText.id}`);
   }, []);
 
   return (
@@ -114,14 +116,21 @@ const ClassicPuzzle = ({
                 </CopyTextButton>
             }
 
-            <Button
+            {!isCustomPuzzle && <Button
               onClick={startNewPuzzle}
               variant="contained"
               color="success"
-              endIcon={<ArrowRightIcon />}
+              endIcon={<ArrowRightIcon/>}
             >
               Next Puzzle
-            </Button>
+            </Button>}
+            {isCustomPuzzle && <Button
+              href={"/"}
+              variant="contained"
+              color="success"
+            >
+              All Puzzles
+            </Button>}
           </div>
         </div>
       )}
